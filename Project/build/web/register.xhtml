@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head></h:head>
+    <h:body>
+        <h:form>
+            Register:<br></br>
+            First name:
+            <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
+            <br></br>
+            Last name:
+            <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
+            <br></br>
+            Username:
+            <h:inputText id="username" value="#{controller.account.username}"></h:inputText>
+            <br></br>
+            Password:
+            <h:inputText id="password" value="#{controller.account.password}"></h:inputText>
+            <br></br>
+            Confirm password:
+            <h:inputSecret id="confirmPassword" value="#{controller.confirmPassword}"></h:inputSecret>
+            <br></br>
+            Email:
+            <h:inputText id="email" value="#{controller.account.email}"></h:inputText>
+            <h:commandButton value="Register" action="#{controller.authenticate()}"></h:commandButton>
+        </h:form>
+    </h:body>
+</html>
