@@ -72,7 +72,7 @@ public class AccountDAO
             String sql = "INSERT INTO Account VALUES ('"
                     + account.getFirstName() + "','" + account.getLastName() + "','"
                     + account.getUsername() + "','" + account.getPassword() + "','"
-                    + account.getEmail() + "');";
+                    + account.getEmail() + "')";
             System.out.println(sql);
             st.executeUpdate(sql);
             connection.close();
