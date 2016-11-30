@@ -90,7 +90,7 @@ public class Controller
         AccountDAO accDao = new AccountDAO();
         ArrayList accCollection = accDao.findByAccountEmail(account.getEmail());
         if(!accCollection.isEmpty()){
-            account.setEmailResult("<span style=\"color:red\"> Email is already in use! </span>");
+            account.setEmailResult("<span style=\"color:red\">Email already used!</span>");
             return account.getEmailResult();
         }
         else{
