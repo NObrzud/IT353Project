@@ -1,17 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-        <button onclick="ImageRating.html">Image upload page</button>
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Navigation Page</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <h:form class="form-signin">
+        <p:layout fullPage="true">
+    <p:layoutUnit position="west">
+        West
+        <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload" value="Upload"/>
+        <h:commandButton class="btn btn-lg btn-primary btn-block" action="view Winners" value="View Winners"/>
+        <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Winners" value="Pay Winners"/>
+        <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Royalities" value="Pay Royalities"/>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+        <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+        <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
+        
+        
+   
+    </p:layoutUnit>
+ 
+    <p:layoutUnit position="center">
+        Center
+        <p:galleria value="#{imageController.images}" var="image" panelWidth="500" panelHeight="313">
+            <p:graphicImage value="Photos/#{image}"></p:graphicImage> 
+        </p:galleria>
+    </p:layoutUnit>
+</p:layout>
+        </h:form>
+    </h:body>
 </html>
