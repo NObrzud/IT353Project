@@ -10,7 +10,10 @@ import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
 import java.util.ArrayList;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
+import org.primefaces.model.UploadedFile;
 /**
  *
  * @author it353F620
@@ -21,6 +24,14 @@ public class Controller
 {
     private Account account;
     private String confirmPassword;
+    private UploadedFile file;
+    
+    public void upload(){
+        if(file!=null){
+            FacesMessage msg = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null,msg);
+        }
+    }
     
     public Controller()
     {
@@ -82,6 +93,13 @@ public class Controller
         this.confirmPassword = confirmPassword;
     }
     
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
     
     /**
      * checks if username is already DB and notifies using AJAX

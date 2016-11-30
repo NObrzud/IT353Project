@@ -25,7 +25,7 @@ public class ImageController
     public void init()
     {
         images = new ArrayList<String>();
-        images.add("Penguins.jpg");
+        
     }
 
     /**
