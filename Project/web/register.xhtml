@@ -15,7 +15,10 @@
             <h3 class="form-signin-heading"> Last name: </h3>
             <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
             <h3 class="form-signin-heading"> Email:  </h3>
-            <h:inputText id="email" value="#{controller.account.email}"></h:inputText>
+            <h:inputText id="email" value="#{controller.account.email}">
+                <f:ajax event="keyup" render="emailResult"></f:ajax>
+            </h:inputText><br></br>
+            <h:outputText id="emailResult" escape="false" value="#{controller.checkValidEmail()}" />
             <h3 class="form-signin-heading"> Password: </h3>
             <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
             <h3 class="form-signin-heading"> Confirm password:</h3>

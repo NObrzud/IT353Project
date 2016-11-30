@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
+import java.util.ArrayList;
 
 /**
  *
@@ -81,4 +82,21 @@ public class Controller
         this.confirmPassword = confirmPassword;
     }
     
+    
+    /**
+     * checks if username is already DB and notifies using AJAX
+     */
+    public String checkValidEmail(){
+        AccountDAO accDao = new AccountDAO();
+        ArrayList accCollection = accDao.findByAccountEmail(account.getEmail());
+        if(!accCollection.isEmpty()){
+            account.setEmailResult("<span style=\"color:red\"> Email is already in use! </span>");
+            return account.getEmailResult();
+        }
+        else{
+            account.setEmailResult("");
+            return account.getEmailResult();
+        }
+        
+    }
 }

@@ -9,21 +9,34 @@ package Model;
  *
  * @author it353F620
  */
-public class Account 
-{
+public class Account {
+
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private int isAdmin;
-    
-    public Account()
-    {
-        password = "";
-        email = "";
-        isAdmin = 0;
+    private String emailResult = "";
+
+    public String getEmailResult() {
+        return emailResult;
     }
 
+    public void setEmailResult(String emailResult) {
+        this.emailResult = emailResult;
+    }
+
+    public Account() {
+       
+    }
+    
+    public Account(String first, String last, String email, String pass){
+        this.firstName = first;
+        this.lastName = last;
+        this.email = email;
+        this.password = pass;
+        this.isAdmin = 0;
+    }
     /**
      * @return the password
      */
@@ -93,5 +106,5 @@ public class Account
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
 }
