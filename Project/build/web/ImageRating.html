@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function readURL(input) {
+if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#imgInp").change(function(){
+    readURL(this);
+});
+</script>
+</head>
+<body>
+<form id="form1" runat="server">
+	<h3>Upload your picture for voting</h3>
+    <input type='file' id="imgInp" />
+    <img id="Img" src="#" alt="your image" />
+	<h4>Ratings</h4>
+	<input type="radio" name="Rating1" value="1" />
+	<input type="radio" name="Rating2" value="2" />
+	<input type="radio" name="Rating3" value="3" />
+	<input type="radio" name="Rating4" value="4" />
+	<input type="radio" name="Rating5" value="5" />
+</form>
+</body>
+</html>

@@ -4,18 +4,20 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>Facelet Title</title>
+         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
-        <h:form>
-            Sign in:<br></br>
-            Username:
-            <h:inputText id="username" value="#{controller.account.username}"></h:inputText>
+        <h:form class = "form-signin">
+            <h3 class="form-signin-heading"> Sign in:<br></br> </h3>
+            <h3 class="form-signin-heading"> Email: </h3>
+            <h:inputText class="form-signin-heading" id="username" value="#{controller.account.email}"></h:inputText>
             <br></br>
-            Password:
-            <h:inputText id="password" value="#{controller.account.password}"></h:inputText>
-            <h:commandButton value="Sign in" action="#{controller.signIn()}"></h:commandButton>
+            <h3 class="form-signin-heading"> Password: </h3>
+            <h:inputText class="form-signin-heading" id="password" value="#{controller.account.password}"></h:inputText>
+            <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign in" action="#{controller.signIn()}"></h:commandButton>
             <br></br>
-            Don't have an account? Click <h:commandLink action="register.xhtml" value="here"></h:commandLink> to register.
+            Don't have an account? Click <h:commandLink id="signup" action="register.xhtml" value="here"></h:commandLink> to register.
         </h:form>
     </h:body>
 </html>

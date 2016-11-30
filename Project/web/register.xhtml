@@ -3,28 +3,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-    <h:head></h:head>
+    <h:head>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
     <h:body>
-        <h:form>
-            Register:<br></br>
-            First name:
+        <h:form class="form-signin">
+            <h2 class="form-signin-heading"> Register:<br></br> </h2>
+            <h3 class="form-signin-heading"> First name: </h3>
             <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
-            <br></br>
-            Last name:
+            <h3 class="form-signin-heading"> Last name: </h3>
             <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
-            <br></br>
-            Username:
-            <h:inputText id="username" value="#{controller.account.username}"></h:inputText>
-            <br></br>
-            Password:
-            <h:inputText id="password" value="#{controller.account.password}"></h:inputText>
-            <br></br>
-            Confirm password:
+            <h3 class="form-signin-heading"> Email:  </h3>
+            <h:inputText id="email" value="#{controller.account.email}"></h:inputText>
+            <h3 class="form-signin-heading"> Password: </h3>
+            <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
+            <h3 class="form-signin-heading"> Confirm password:</h3>
             <h:inputSecret id="confirmPassword" value="#{controller.confirmPassword}"></h:inputSecret>
             <br></br>
-            Email:
-            <h:inputText id="email" value="#{controller.account.email}"></h:inputText>
-            <h:commandButton value="Register" action="#{controller.authenticate()}"></h:commandButton>
+            <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign up" action="#{controller.authenticate()}"></h:commandButton>
+            <br></br>
+            <h:commandButton class="btn btn-lg btn-warning btn-block" id="cancelbutton" value="Cancel" action="index.xhtml"></h:commandButton>
+            <br></br>
         </h:form>
     </h:body>
 </html>

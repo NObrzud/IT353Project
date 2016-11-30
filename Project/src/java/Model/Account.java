@@ -13,30 +13,15 @@ public class Account
 {
     private String firstName;
     private String lastName;
-    private String username;
     private String password;
     private String email;
-    private boolean isAdmin;
+    private int isAdmin;
     
     public Account()
     {
-        username = "";
         password = "";
         email = "";
-    }
-
-    /**
-     * @return the username
-     */
-    public String getUsername() { 
-        return username; 
-    }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
+        isAdmin = 0;
     }
 
     /**
@@ -70,14 +55,14 @@ public class Account
     /**
      * @return the isAdmin
      */
-    public boolean isIsAdmin() {
+    public int isIsAdmin() {
         return isAdmin;
     }
 
     /**
      * @param isAdmin the isAdmin to set
      */
-    public void setIsAdmin(boolean isAdmin) {
+    public void setIsAdmin(int isAdmin) {
         this.isAdmin = isAdmin;
     }
 

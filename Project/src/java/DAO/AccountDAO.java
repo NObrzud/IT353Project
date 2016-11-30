@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package DAO;
 import Model.Account;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,7 +26,7 @@ public class AccountDAO
             System.err.println(e.getMessage());
             System.exit(0);
         }
-        String username = account.getUsername();
+        String username = account.getEmail();
         String password = account.getPassword();
         int a = 0;
         try
@@ -38,7 +38,7 @@ public class AccountDAO
             ResultSet rs = ps.executeQuery();
             while(rs.next())
             {
-                String u = rs.getString("USERNAME");
+                String u = rs.getString("EMAIL");
                 String p = rs.getString("PASSWORD");
                 if(!username.equals(u)){}
                 else
@@ -71,8 +71,8 @@ public class AccountDAO
             Statement st = connection.createStatement();
             String sql = "INSERT INTO Account VALUES ('"
                     + account.getFirstName() + "','" + account.getLastName() + "','"
-                    + account.getUsername() + "','" + account.getPassword() + "','"
-                    + account.getEmail() + "')";
+                    + account.getEmail() + "','" + account.getPassword() + "', "
+                    + "0" + ")";
             System.out.println(sql);
             st.executeUpdate(sql);
             connection.close();

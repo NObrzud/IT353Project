@@ -8,7 +8,7 @@ package Controller;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
-import View.AccountDAO;
+import DAO.AccountDAO;
 
 /**
  *
@@ -57,14 +57,13 @@ public class Controller
         if(account.getFirstName().equals("")) return "register.xhtml";
         if(account.getLastName().equals("")) return "register.xhtml";
         if(account.getEmail().equals("")) return "register.xhtml";
-        if(account.getUsername().equals("")) return "register.xhtml";
         if(account.getPassword().equals("")) return "register.xhtml";
         if(confirmPassword.equals("")) return "register.xhtml";
         //Making sure password and confirm password are the same
         if(!account.getPassword().equals(confirmPassword)) return "register.xhtml";
         //Register
         AccountDAO ad = new AccountDAO();
-        if(ad.register(account) == 1) return "dashboard.xhtml";
+        if(ad.register(account) == 1) return "index.xhtml";
         else return "register.xhtml";
     }
 
