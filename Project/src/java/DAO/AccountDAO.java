@@ -6,13 +6,17 @@
 package DAO;
 
 import Model.Account;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -121,6 +125,33 @@ public class AccountDAO {
             st.executeUpdate(sql);
             connection.close();
         } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }
+        return 1;
+    }
+    
+    public int uploadImage(FileUploadEvent event, Account account)
+    {
+        try{
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE)";
+            String values = "values (?,?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql + values);
+            ps.setString(1, event.getFile().getFileName());
+            ps.setString(2, account.getEmail());
+            ps.setInt(3, 0);
+            ps.setInt(4, 5);
+            Blob blob = connection.createBlob();
+            blob.setBytes(1, event.getFile().getContentType().getBytes());
+            ps.setBlob(5, blob);
+            ps.setDate(6, new Date(Calendar.getInstance().getTime().getTime()));
+            ps.execute();
+            blob.free();
+            ps.close();
+        }
+        catch (SQLException e) {
             System.err.println(e.getMessage());
             return 0;
         }
