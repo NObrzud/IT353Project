@@ -33,7 +33,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author it353F620
  */
-@ManagedBean(eager=false)
+@ManagedBean(eager = false)
 @SessionScoped
 public class Controller {
 
@@ -44,7 +44,7 @@ public class Controller {
     public Controller() {
         account = new Account();
     }
-    
+
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
@@ -62,22 +62,44 @@ public class Controller {
     public String authenticate() {
         //Making sure all values have been inputed
         if (account.getFirstName().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your firstname.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         if (account.getLastName().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your lastname.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         if (account.getEmail().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a email.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "register.xhtml";
+        }
+        if (account.getEmail().charAt(0)=='.' ||
+                account.getEmail().charAt(account.getEmail().length()-1)=='.' ||
+                account.getEmail().charAt(0)=='@' ||
+                account.getEmail().charAt(account.getEmail().length()-1)=='@' ||
+                !account.getEmail().contains("@") ||
+                !account.getEmail().contains(".")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a valid email.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         if (account.getPassword().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a password.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         if (account.getConfirmPass().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please confirm your password.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         //Making sure password and confirm password are the same
         if (!account.getPassword().equals(account.getConfirmPass())) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Passwords don't match.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
         //Register
@@ -106,21 +128,15 @@ public class Controller {
             return "";
         }
     }
-    
-    public String checkMatchingPasswords(){
-        if(account.getPassword().equals(account.getConfirmPass())){
-            return "";
-        }
-        else{
-            return "<span style=\"color:red\">Passwords don't match!</span>";
-        }
-    }
 
     public String checkAccountInfo() {
         AccountDAO accDao = new AccountDAO();
         ArrayList accCollection = accDao.findByAccountEmail(account.getEmail());
         if (accCollection.isEmpty()) {
-            return "error.xhtml";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Could not verify your account "
+                    + "with the information provided. Please try again.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "forgotpassword.xhtml";
         } else {
             Account a = (Account) accCollection.get(0);
             if (account.getFirstName().toUpperCase().equals(a.getFirstName().toUpperCase())
@@ -128,17 +144,36 @@ public class Controller {
                     && account.getEmail().toUpperCase().equals(a.getEmail().toUpperCase())) {
                 return "changepassword.xhtml";
             } else {
-                return "index.xhtml";
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Could not verify your account "
+                        + "with the information provided. Please try again.");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+                return "forgotpassword.xhtml";
             }
         }
     }
 
     public String changePassword() {
-        AccountDAO accDao = new AccountDAO();
-        accDao.changePassword(account);
-       // FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
-        //FacesContext.getCurrentInstance().addMessage(null, message);
+        if(account.getPassword().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter your new password.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "changepassword.xhtml";
+        }
+        if(account.getConfirmPass().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please confirm your password");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "changepassword.xhtml";
+        }
+        if(!account.getPassword().equals(account.getConfirmPass())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Passwords don't match.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "changepassword.xhtml";
+        }
+        else{
+            AccountDAO accDao = new AccountDAO();
+            accDao.changePassword(account);
+        }
         return "index.xhtml";
+        
     }
 
     /*
@@ -224,7 +259,7 @@ public class Controller {
     public void setAccount(Account account) {
         this.account = account;
     }
-    
+
     /**
      * @return the file
      */
