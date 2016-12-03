@@ -9,10 +9,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 /**
  *
@@ -24,6 +31,8 @@ public class Controller
 {
     private Account account;
     private String confirmPassword;
+    private UploadedFile file;
+    private double rating;
     
     public Controller()
     {
@@ -70,19 +79,11 @@ public class Controller
         if(ad.register(account) == 1) return "index.xhtml";
         else return "register.xhtml";
     }
-
-    /**
-     * @return the confirmPassword
-     */
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    /**
-     * @param confirmPassword the confirmPassword to set
-     */
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
+    
+    public void upload(FileUploadEvent event)
+    {
+        AccountDAO ad = new AccountDAO();
+        int x = ad.uploadImage(event, account);
     }
 
     /**
@@ -100,5 +101,47 @@ public class Controller
             return account.getEmailResult();
         }
         
+    }
+
+    /**
+     * @return the file
+     */
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
+    /**
+     * @return the rating
+     */
+    public double getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating the rating to set
+     */
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+    
+        /**
+     * @return the confirmPassword
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * @param confirmPassword the confirmPassword to set
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
