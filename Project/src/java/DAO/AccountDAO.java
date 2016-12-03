@@ -142,7 +142,7 @@ public class AccountDAO {
             ps.setString(1, event.getFile().getFileName());
             ps.setString(2, account.getEmail());
             ps.setInt(3, 0);
-            ps.setInt(4, 5);
+            ps.setInt(4, 0);
             Blob blob = connection.createBlob();
             blob.setBytes(1, event.getFile().getContentType().getBytes());
             ps.setBlob(5, blob);
