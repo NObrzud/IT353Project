@@ -33,7 +33,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author it353F620
  */
-@ManagedBean
+@ManagedBean(eager=false)
 @SessionScoped
 public class Controller {
 
@@ -44,21 +44,7 @@ public class Controller {
     public Controller() {
         account = new Account();
     }
-
-    /**
-     * @return the account
-     */
-    public Account getAccount() {
-        return account;
-    }
-
-    /**
-     * @param account the account to set
-     */
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
+    
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
@@ -115,13 +101,19 @@ public class Controller {
         AccountDAO accDao = new AccountDAO();
         ArrayList accCollection = accDao.findByAccountEmail(account.getEmail());
         if (!accCollection.isEmpty()) {
-            account.setEmailResult("<span style=\"color:red\">Email already used!</span>");
-            return account.getEmailResult();
+            return "<span style=\"color:red\">Email already used!</span>";
         } else {
-            account.setEmailResult("");
-            return account.getEmailResult();
+            return "";
         }
-
+    }
+    
+    public String checkMatchingPasswords(){
+        if(account.getPassword().equals(account.getConfirmPass())){
+            return "";
+        }
+        else{
+            return "<span style=\"color:red\">Passwords don't match!</span>";
+        }
     }
 
     public String checkAccountInfo() {
@@ -144,6 +136,8 @@ public class Controller {
     public String changePassword() {
         AccountDAO accDao = new AccountDAO();
         accDao.changePassword(account);
+       // FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
+        //FacesContext.getCurrentInstance().addMessage(null, message);
         return "index.xhtml";
     }
 
@@ -217,6 +211,20 @@ public class Controller {
         }
     }
 
+    /**
+     * @return the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+    
     /**
      * @return the file
      */

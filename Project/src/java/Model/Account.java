@@ -17,16 +17,7 @@ public class Account {
     private String confirmPass;
     private String email;
     private int isAdmin;
-    private String emailResult = "";
-
-    public String getEmailResult() {
-        return emailResult;
-    }
-
-    public void setEmailResult(String emailResult) {
-        this.emailResult = emailResult;
-    }
-
+    
     public Account() {
        
     }

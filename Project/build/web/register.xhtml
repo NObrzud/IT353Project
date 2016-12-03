@@ -20,9 +20,15 @@
             </h:inputText>
             <h:outputText id="emailResult" escape="false" value="#{controller.checkValidEmail()}" />
             <h3 class="form-signin-heading"> Password: </h3>
-            <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
+            <h:inputSecret id="password" value="#{controller.account.password}">
+                <f:ajax event="keyup" render="passmatch"></f:ajax>
+            </h:inputSecret>
             <h3 class="form-signin-heading"> Confirm password:</h3>
-            <h:inputSecret id="confirmPassword" value="#{controller.account.confirmPass}"></h:inputSecret>
+            <h:inputSecret id="confirmPassword" value="#{controller.account.confirmPass}">
+                <f:ajax event="keyup" render="passmatch"></f:ajax>
+            </h:inputSecret>
+            <br></br>
+            <h:outputText id="passmatch" escape="false" value="#{controller.checkMatchingPasswords()}" />
             <br></br>
             <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign up" action="#{controller.authenticate()}"></h:commandButton>
             <br></br>
@@ -30,4 +36,5 @@
             <br></br>
         </h:form>
     </h:body>
+
 </html>
