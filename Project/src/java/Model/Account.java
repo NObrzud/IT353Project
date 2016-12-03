@@ -14,6 +14,7 @@ public class Account {
     private String firstName;
     private String lastName;
     private String password;
+    private String confirmPass;
     private String email;
     private int isAdmin;
     private String emailResult = "";
@@ -50,6 +51,15 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getConfirmPass() {
+        return confirmPass;
+    }
+
+    public void setConfirmPass(String confirmpass) {
+        this.confirmPass = confirmpass;
+    }
+    
 
     /**
      * @return the email

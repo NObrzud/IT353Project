@@ -8,8 +8,8 @@
         <link href="signin.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
+        <h1 class="form-signin-heading" align="center"> Register:</h1>
         <h:form class="form-signin">
-            <h2 class="form-signin-heading"> Register:<br></br> </h2>
             <h3 class="form-signin-heading"> First name: </h3>
             <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
             <h3 class="form-signin-heading"> Last name: </h3>
@@ -22,7 +22,7 @@
             <h3 class="form-signin-heading"> Password: </h3>
             <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
             <h3 class="form-signin-heading"> Confirm password:</h3>
-            <h:inputSecret id="confirmPassword" value="#{controller.confirmPassword}"></h:inputSecret>
+            <h:inputSecret id="confirmPassword" value="#{controller.account.confirmPass}"></h:inputSecret>
             <br></br>
             <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign up" action="#{controller.authenticate()}"></h:commandButton>
             <br></br>

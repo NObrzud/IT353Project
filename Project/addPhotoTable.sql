@@ -1,19 +1,11 @@
-CREATE TABLE Photos(
-	names varchar(255)
+DROP TABLE PHOTOS;
+CREATE TABLE PHOTOS(
+    photoid INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    rating INTEGER NOT NULL,
+    total INTEGER NOT NULL,
+    imagecontent BLOB NOT NULL,
+    submissiondate DATE NOT NULL,
+    FOREIGN KEY (email) REFERENCES ACCOUNT
 );
-INSERT INTO Photos
-	VALUES ('Chrysanthemum.jpg');
-INSERT INTO PHOTOS
-        VALUES('Desert.jpg');
-INSERT INTO PHOTOS
-        VALUES('Hydrangeas.jpg');
-INSERT INTO PHOTOS
-        VALUES('Jellyfish.jpg');
-INSERT INTO PHOTOS
-        VALUES('Koala.jpg');
-INSERT INTO PHOTOS
-        VALUES('Lighthouse.jpg');
-INSERT INTO PHOTOS
-        VALUES('Penguins');
-INSERT INTO PHOTOS
-        VALUES('Tulips.jpg');

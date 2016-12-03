@@ -14,6 +14,8 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -36,7 +38,6 @@ import org.primefaces.model.UploadedFile;
 public class Controller {
 
     private Account account;
-    private String confirmPassword;
     private UploadedFile file;
     private double rating;
 
@@ -86,11 +87,11 @@ public class Controller {
         if (account.getPassword().equals("")) {
             return "register.xhtml";
         }
-        if (confirmPassword.equals("")) {
+        if (account.getConfirmPass().equals("")) {
             return "register.xhtml";
         }
         //Making sure password and confirm password are the same
-        if (!account.getPassword().equals(confirmPassword)) {
+        if (!account.getPassword().equals(account.getConfirmPass())) {
             return "register.xhtml";
         }
         //Register
@@ -122,9 +123,33 @@ public class Controller {
         }
 
     }
+
+    public String checkAccountInfo() {
+        AccountDAO accDao = new AccountDAO();
+        ArrayList accCollection = accDao.findByAccountEmail(account.getEmail());
+        if (accCollection.isEmpty()) {
+            return "error.xhtml";
+        } else {
+            Account a = (Account) accCollection.get(0);
+            if (account.getFirstName().toUpperCase().equals(a.getFirstName().toUpperCase())
+                    && account.getLastName().toUpperCase().equals(a.getLastName().toUpperCase())
+                    && account.getEmail().toUpperCase().equals(a.getEmail().toUpperCase())) {
+                return "changepassword.xhtml";
+            } else {
+                return "index.xhtml";
+            }
+        }
+    }
+
+    public String changePassword() {
+        AccountDAO accDao = new AccountDAO();
+        accDao.changePassword(account);
+        return "index.xhtml";
+    }
+
     /*
     * sends email
-    */
+     */
     public void sendEmail(String recipient, String sender, String subject, String content) {
         String to = recipient;
         String from = sender;
@@ -192,10 +217,10 @@ public class Controller {
         }
     }
 
-/**
- * @return the file
- */
-public UploadedFile getFile() {
+    /**
+     * @return the file
+     */
+    public UploadedFile getFile() {
         return file;
     }
 
@@ -218,19 +243,5 @@ public UploadedFile getFile() {
      */
     public void setRating(double rating) {
         this.rating = rating;
-    }
-    
-        /**
-     * @return the confirmPassword
-     */
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    /**
-     * @param confirmPassword the confirmPassword to set
-     */
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 }
