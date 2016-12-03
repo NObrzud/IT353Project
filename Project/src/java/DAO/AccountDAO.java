@@ -131,6 +131,32 @@ public class AccountDAO {
         return 1;
     }
     
+     public int changePassword(Account account) {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }
+
+        try {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            Statement st = connection.createStatement();
+            String sql = "UPDATE ACCOUNT SET password = '"
+                    + account.getPassword()
+                    + "' WHERE email = '"
+                    + account.getEmail() +"'";
+            System.out.println(sql);
+            st.executeUpdate(sql);
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }
+        return 1;
+    }
+    
     public int uploadImage(FileUploadEvent event, Account account)
     {
         try{
