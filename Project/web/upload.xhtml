@@ -23,7 +23,7 @@
                 <p:layoutUnit position="center">
                     <h:form>
                         <p:fileUpload fileUploadListener="#{controller.upload}" mode="advanced" dragDropSupport="false"
-                                      update="messages" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                      update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
                         <p:growl id="messages" showDetail="true" />
                     </h:form>
                 </p:layoutUnit>
