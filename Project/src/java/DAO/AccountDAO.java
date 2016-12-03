@@ -87,13 +87,12 @@ public class AccountDAO {
             while (rs.next()) {
                 String u = rs.getString("EMAIL");
                 String p = rs.getString("PASSWORD");
-                if (!username.equals(u)) {
-                } else {
-                    if (!password.equals(p)) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
+                String admin = rs.getString("ADMIN");
+                if(username.equals(u))
+                {
+                    if (!password.equals(p)) return 0;
+                    else if(admin.equals("1")) return 2;
+                    else return 1;
                 }
             }
         } catch (SQLException e) {

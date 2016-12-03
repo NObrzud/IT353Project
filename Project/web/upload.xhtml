@@ -26,13 +26,11 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    Center
-                    <h:form enctype="multipart/form-data">
+                    <h:form>
+                        <p:fileUpload fileUploadListener="#{imageController.upload}" mode="advanced" dragDropSupport="false"
+                                      update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+
                         <p:growl id="messages" showDetail="true" />
-
-                        <p:fileUpload value="#{controller.file}" mode="simple" skinSimple="true"/>
-
-                        <p:commandButton value="Submit" ajax="false" actionListener="#{controller.upload()}"  />
                     </h:form>
                 </p:layoutUnit>
             </p:layout>

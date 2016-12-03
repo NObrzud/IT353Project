@@ -24,14 +24,6 @@ public class Controller
 {
     private Account account;
     private String confirmPassword;
-    private UploadedFile file;
-    
-    public void upload(){
-        if(file!=null){
-            FacesMessage msg = new FacesMessage("Succesful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null,msg);
-        }
-    }
     
     public Controller()
     {
@@ -56,10 +48,10 @@ public class Controller
     public String signIn()
     {
         AccountDAO ad = new AccountDAO();
-        if(ad.login(account)==1)
-            return "dashboard.xhtml";
-        else
-            return "login.xhtml";
+        int x = ad.login(account);
+        if(x == 1) return "dashboard.xhtml";
+        else if (x == 2) return "a_dashboard.xhtml";
+        else return "login.xhtml";
     }
     
     //This method calls the method to register you into the DB
@@ -92,15 +84,7 @@ public class Controller
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-    
-    public UploadedFile getFile() {
-        return file;
-    }
 
-    public void setFile(UploadedFile file) {
-        this.file = file;
-    }
-    
     /**
      * checks if username is already DB and notifies using AJAX
      */
