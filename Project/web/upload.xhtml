@@ -12,7 +12,6 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
-                    West
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="view Winners" value="View Winners"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Winners" value="Pay Winners"/>
@@ -20,16 +19,11 @@
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
-
-
-
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center">
                     <h:form>
-                        <p:fileUpload fileUploadListener="#{imageController.upload}" mode="advanced" dragDropSupport="false"
+                        <p:fileUpload fileUploadListener="#{controller.upload}" mode="advanced" dragDropSupport="false"
                                       update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-
                         <p:growl id="messages" showDetail="true" />
                     </h:form>
                 </p:layoutUnit>
