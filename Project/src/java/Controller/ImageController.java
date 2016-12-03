@@ -5,23 +5,18 @@
  */
 package Controller;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import Model.Account;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.swing.ImageIcon;
+import javax.faces.bean.SessionScoped;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -30,15 +25,18 @@ import org.primefaces.model.UploadedFile;
  * @author Cedomir Spalevic
  */
 @ManagedBean
+@SessionScoped
 public class ImageController 
 {
     private double rating;
     private UploadedFile file;
     private ArrayList<String> images;
+    private Account account;
     
     public ImageController()
     {
         images = new ArrayList<String>();
+        //account = (Account) FacesContext.getCurrentInstance().getClass(Account.class);
     }
     
     public void upload(FileUploadEvent event)
@@ -46,12 +44,17 @@ public class ImageController
         try{
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            PreparedStatement ps;
-            ps = connection.prepareStatement("INSERT INTO PHOTOS (NAME, CONTENT)" + "VALUES(?,?)");
+            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE)";
+            String values = "values (?,?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql + values);
             ps.setString(1, event.getFile().getFileName());
+            ps.setString(2, getAccount().getEmail());
+            ps.setInt(3, 0);
+            ps.setInt(4, 5);
             Blob blob = connection.createBlob();
             blob.setBytes(1, event.getFile().getContentType().getBytes());
-            ps.setBlob(2, blob);
+            ps.setBlob(5, blob);
+            ps.setDate(6, new Date(Calendar.getInstance().getTime().getTime()));
             ps.execute();
             blob.free();
             ps.close();
@@ -59,29 +62,17 @@ public class ImageController
         catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        System.out.println("You did well son");
     }
 
     @PostConstruct
-    public void init()
+    public void getPhotos()
     {
-        try {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-        } catch (ClassNotFoundException e) {
-            System.err.println(e.getMessage());
-        }
-
-        try {
+        try{
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            Statement st = connection.createStatement();
-            String sql = "SELECT * FROM Photos";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()){
-                //images.add(rs.getString("Names"));
-            }
-        } catch (SQLException e) {
+            String sql = "select * from Photos";
+        }
+        catch (SQLException e) {
             System.err.println(e.getMessage());
         }
     }
@@ -136,5 +127,19 @@ public class ImageController
      */
     public void setImages(ArrayList<String> images) {
         this.images = images;
+    }
+
+    /**
+     * @return the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }
