@@ -8,17 +8,17 @@
         <link href="signin.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
+         <h1 class="form-signin-heading" align="center"> Sign in: </h1>
         <h:form class = "form-signin">
-            <h3 class="form-signin-heading"> Sign in:<br></br> </h3>
             <h3 class="form-signin-heading"> Email: </h3>
             <h:inputText class="form-signin-heading" id="username" value="#{controller.account.email}"></h:inputText>
             <br></br>
             <h3 class="form-signin-heading"> Password: </h3>
-            <h:inputText class="form-signin-heading" id="password" value="#{controller.account.password}"></h:inputText>
+            <h:inputSecret class="form-signin-heading" id="password" value="#{controller.account.password}"></h:inputSecret>
             <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign in" action="#{controller.signIn()}"></h:commandButton>
             <br></br>
             Don't have an account? Click <h:commandLink id="signup" action="register.xhtml" value="here"></h:commandLink> to register.<br></br>
-            Forgot your password? Click <h:commandLink id="forgot" action="forgot.xhtml" value="here"></h:commandLink> to recover.
+            Forgot your password? Click <h:commandLink id="forgot" action="forgotpassword.xhtml" value="here"></h:commandLink> to recover.
             
         </h:form>
     </h:body>
