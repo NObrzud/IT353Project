@@ -253,4 +253,19 @@ public class AccountDAO {
         }
         return img;
     }
+    
+    public void updateRating(Image image, int rating)
+    {
+        try {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "UPDATE PHOTOS SET RATING = " + rating 
+                    + ", TOTAL = " + 5 + " WHERE EMAIL = " + image.getEmail();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

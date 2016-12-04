@@ -26,9 +26,11 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="313">
-                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}">
-                            <f:param name="pid" value="#{image.photoid}" />
-                        </p:graphicImage> 
+                        <h:outputText value="Rating:" />
+                            <p:rating value="#{image.rating}" stars="5"/>
+                        <p:graphicImage value="#{controller.image.streamContent}">
+                            <f:param name="pid" value="#{image.photoid}"/>
+                        </p:graphicImage>
                     </p:galleria>
                 </p:layoutUnit>
             </p:layout>

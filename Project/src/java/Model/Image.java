@@ -78,7 +78,10 @@ public class Image {
     }
 
     public int getRating() {
-        return rating;
+        double temp;
+        if(total != 0) temp = ((double)rating/(double)total);
+        else temp=0;
+        return (int)(temp*5);
     }
 
     public void setRating(int rating) {

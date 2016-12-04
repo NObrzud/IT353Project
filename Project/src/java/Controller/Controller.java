@@ -28,6 +28,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -40,15 +41,17 @@ public class Controller {
 
     private Account account;
     private UploadedFile file;
-    private double rating;
+    private Integer rating;
+    private int photoId;
     private ArrayList<Image> imageArr;
     private Image image;
 
     public Controller() {
         account = new Account();
         getImagesFromDB();
-        System.out.println(imageArr.size() + "$$$");
         image=new Image();
+        rating = -1;
+        photoId = -1;
     }
     
     public void getImagesFromDB(){
@@ -257,6 +260,12 @@ public class Controller {
             mex.printStackTrace();
         }
     }
+    
+    //Method to submit the rating to the current photo
+    public void submitRating()
+    {
+        AccountDAO ad = new AccountDAO();
+    }
 
     /**
      * @return the account
@@ -289,14 +298,14 @@ public class Controller {
     /**
      * @return the rating
      */
-    public double getRating() {
+    public Integer getRating() {
         return rating;
     }
 
     /**
      * @param rating the rating to set
      */
-    public void setRating(double rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
@@ -314,6 +323,20 @@ public class Controller {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    /**
+     * @return the photoId
+     */
+    public int getPhotoId() {
+        return photoId;
+    }
+
+    /**
+     * @param photoId the photoId to set
+     */
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
     
 }
