@@ -12,17 +12,15 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="view Winners" value="View Winners"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="+" value="+"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Winners" value="Pay Winners"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Winners"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Royalities" value="Pay Royalities"/>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <div></div>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>
-                    <div></div>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" value="Cart"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
                     <p:galleria value="#{imageController.images}" var="image" panelWidth="500" panelHeight="313">
                         <p:graphicImage value="res/#{image}"></p:graphicImage> 
