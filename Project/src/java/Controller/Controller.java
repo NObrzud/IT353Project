@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
+import Model.Image;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -33,18 +34,29 @@ import org.primefaces.model.UploadedFile;
  *
  * @author it353F620
  */
-@ManagedBean(eager = false)
+@ManagedBean
 @SessionScoped
 public class Controller {
 
     private Account account;
     private UploadedFile file;
     private double rating;
+    private ArrayList<Image> imageArr;
+    private Image image;
 
     public Controller() {
         account = new Account();
+        getImagesFromDB();
+        System.out.println(imageArr.size() + "$$$");
+        image=new Image();
     }
-
+    
+    public void getImagesFromDB(){
+        AccountDAO dao = new AccountDAO();
+        String query = "SELECT * FROM PHOTOS";
+        imageArr = dao.getImages(query);
+    }
+    
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
@@ -287,4 +299,21 @@ public class Controller {
     public void setRating(double rating) {
         this.rating = rating;
     }
+
+    public ArrayList<Image> getImageArr() {
+        return imageArr;
+    }
+
+    public void setImageArr(ArrayList<Image> imageArr) {
+        this.imageArr = imageArr;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
+    }
+    
 }

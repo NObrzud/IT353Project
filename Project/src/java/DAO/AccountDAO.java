@@ -6,7 +6,7 @@
 package DAO;
 
 import Model.Account;
-import java.sql.Blob;
+import Model.Image;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -33,7 +33,7 @@ public class AccountDAO {
     }
 
     private ArrayList selectAccountsFromDB(String query) {
-       ArrayList aUserCollection = new ArrayList();
+        ArrayList aUserCollection = new ArrayList();
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
@@ -92,11 +92,14 @@ public class AccountDAO {
                 String u = rs.getString("EMAIL");
                 String p = rs.getString("PASSWORD");
                 String admin = rs.getString("ADMIN");
-                if(username.equals(u))
-                {
-                    if (!password.equals(p)) return 0;
-                    else if(admin.equals("1")) return 2;
-                    else return 1;
+                if (username.equals(u)) {
+                    if (!password.equals(p)) {
+                        return 0;
+                    } else if (admin.equals("1")) {
+                        return 2;
+                    } else {
+                        return 1;
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -130,8 +133,8 @@ public class AccountDAO {
         }
         return 1;
     }
-    
-     public int changePassword(Account account) {
+
+    public int changePassword(Account account) {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
         } catch (ClassNotFoundException e) {
@@ -146,7 +149,7 @@ public class AccountDAO {
             String sql = "UPDATE ACCOUNT SET password = '"
                     + account.getPassword()
                     + "' WHERE email = '"
-                    + account.getEmail() +"'";
+                    + account.getEmail() + "'";
             System.out.println(sql);
             st.executeUpdate(sql);
             connection.close();
@@ -156,10 +159,9 @@ public class AccountDAO {
         }
         return 1;
     }
-    
-    public int uploadImage(FileUploadEvent event, Account account)
-    {
-        try{
+
+    public int uploadImage(FileUploadEvent event, Account account) {
+        try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE)";
@@ -169,19 +171,86 @@ public class AccountDAO {
             ps.setString(2, account.getEmail());
             ps.setInt(3, 0);
             ps.setInt(4, 0);
-            Blob blob = connection.createBlob();
-            blob.setBytes(1, event.getFile().getContentType().getBytes());
-            ps.setBlob(5, blob);
+            ps.setBytes(5, event.getFile().getContents());
             ps.setDate(6, new Date(Calendar.getInstance().getTime().getTime()));
             ps.execute();
-            blob.free();
             ps.close();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println(e.getMessage());
             return 0;
         }
         return 1;
     }
 
+    public ArrayList<Image> getImages(String query) {
+        Image img;
+        ArrayList<Image> imagecollection = new ArrayList<Image>();
+        Connection DBConn = null;
+        try {
+            DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
+            Statement stmt = DBConn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(query);
+            String filename, email;
+            int photoid, rating, total;
+            byte[] content;
+            Date submitted;
+
+            while (rs.next()) {
+                photoid = rs.getInt("PHOTOID");
+                filename = rs.getString("FILENAME");
+                email = rs.getString("EMAIL");
+                content = rs.getBytes("IMAGECONTENT");
+                rating = rs.getInt("RATING");
+                total = rs.getInt("TOTAL");
+                submitted = rs.getDate("SUBMISSIONDATE");
+
+                img = new Image(photoid, filename, email, content, rating, total, submitted);
+                imagecollection.add(img);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: Problems with SQL select");
+            e.printStackTrace();
+        }
+        try {
+            DBConn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return imagecollection;
+    }
+    
+    public byte[] getSingleImage(String id) {
+        byte[] img = null;
+        Connection DBConn = null;
+        try {
+            DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
+            PreparedStatement stmt;// = DBConn.createStatement();
+
+            stmt = DBConn.prepareStatement("SELECT * FROM PHOTOS WHERE photoid=?");
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                img = rs.getBytes("imagecontent");
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: Problems with SQL select");
+            e.printStackTrace();
+        }
+        try {
+            DBConn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return img;
+    }
 }
