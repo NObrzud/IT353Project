@@ -1,16 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Winners</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <!-->Need to add a column to SQL file that has winners, then we can just pull all those images from this page.<!-->
-    </body>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Main</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <h:form class="form-signin">
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="dashboard.xhtml" value="Dashboard"/>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="Winner for" alt="#{image.submitted}">
+                            <f:param name="pid" value="#{image.photoid}"/>
+                        </p:graphicImage>
+                    </p:galleria>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
 </html>

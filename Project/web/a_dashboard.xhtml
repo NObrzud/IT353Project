@@ -1,8 +1,9 @@
- <?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Main</title>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
@@ -12,23 +13,22 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Royalties"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="+" value="+"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Winners"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="Pay Royalities" value="Pay Royalities"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <div></div>
-                    <p:galleria value="#{imageController.images}" var="image" panelWidth="500" panelHeight="313">
-                        <p:graphicImage value="res/#{image}"></p:graphicImage> 
+                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}">
+                            <f:param name="pid" value="#{image.photoid}"/>
+                        </p:graphicImage>
                     </p:galleria>
                 </p:layoutUnit>
+                <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
+                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink></p:layoutUnit>
             </p:layout>
         </h:form>
     </h:body>
-</html>
-    </body>
 </html>

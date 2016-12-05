@@ -326,7 +326,7 @@ public class AccountDAO {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "DELETE * FROM CART";
+            String sql = "DELETE FROM CART";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();

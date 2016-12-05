@@ -27,7 +27,7 @@
                     <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
-                        <p:graphicImage value="#{controller.image.streamContent}" alt="#{image.filename}">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                         <input type="hidden" name="myimage" value="#{image.photoid}"/>
@@ -36,6 +36,8 @@
                             <p:ajax event="rate" listener="#{controller.onrate}"></p:ajax>
                         </p:rating>
                 </p:layoutUnit>
+                <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
+                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink></p:layoutUnit>
             </p:layout>
         </h:form>
     </h:body>
