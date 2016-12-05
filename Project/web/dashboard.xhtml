@@ -28,9 +28,9 @@
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" alt="#{image.filename}">
-                            <f:param name="myimage" value="#{image.photoid}"/>
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
+                        <input type="hidden" name="myimage" value="#{image.photoid}"/>
                     </p:galleria>
                     Rate this image! <p:rating stars="5" value="#{controller.userRating}"> 
                             <p:ajax event="rate" listener="#{controller.onrate}"></p:ajax>

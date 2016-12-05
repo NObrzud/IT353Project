@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.Account;
+import Model.Cart;
 import Model.Image;
 import java.sql.Connection;
 import java.sql.Date;
@@ -270,7 +271,8 @@ public class AccountDAO {
     
     public void addToCart(String filename, String email, double price)
     {
-          try {
+        if(filenameExistsInDB(filename)) return;
+        try{
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "INSERT INTO CART (EMAIL, NAME, PRICE) VALUES (?,?,?)";
@@ -285,6 +287,40 @@ public class AccountDAO {
         }
     }
     
+    public ArrayList<Cart> getCart()
+    {
+        ArrayList<Cart> cart = new ArrayList<Cart>();
+        Connection DBConn = null;
+        try {
+            DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
+            Statement stmt = DBConn.createStatement();
+            String query = "SELECT * FROM CART";
+            ResultSet rs = stmt.executeQuery(query);
+            String name, email;
+            double price;
+            while (rs.next()) {
+                name = rs.getString("NAME");
+                email = rs.getString("EMAIL");
+                price = rs.getDouble("PRICE");
+                Cart tempCart = new Cart(email, name, price);
+                cart.add(tempCart);
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: Problems with SQL select");
+            e.printStackTrace();
+        }
+        try {
+            DBConn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cart;
+    }
+    
     public void emptyCart()
     {
         try {
@@ -297,5 +333,25 @@ public class AccountDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    private boolean filenameExistsInDB(String filename)
+    {
+        try {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            Statement stmt = connection.createStatement();
+            String query = "SELECT NAME FROM CART";
+            ResultSet rs = stmt.executeQuery(query);
+            String name, email;
+            double price;
+            while (rs.next()) {
+                name = rs.getString("NAME");
+                if(filename.equals(name)) return true;
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
     }
 }

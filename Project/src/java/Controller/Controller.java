@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
+import Model.Cart;
 import Model.Image;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -44,6 +45,7 @@ public class Controller {
     private Account account;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
+    private ArrayList<Cart> cart;
     private Image image;
     private int userRating=0;
 
@@ -284,6 +286,23 @@ public class Controller {
         }
         AccountDAO ad = new AccountDAO();
         ad.addToCart(fn, em, price);
+    }
+    
+    public ArrayList<Cart> getCart()
+    {
+        AccountDAO ad = new AccountDAO();
+        this.cart = ad.getCart();
+        return this.cart;
+    }
+    
+    public double getTotalPrice()
+    {
+        double price = 0;
+        for(int i = 0; i < cart.size(); i++)
+        {
+            price += cart.get(i).getPrice();
+        }
+        return price;
     }
     
     public String logout()
