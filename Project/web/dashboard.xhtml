@@ -25,10 +25,10 @@
                     <div></div>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
-                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="313">
-                        <h:outputText value="Rating:" />
-                            <p:rating value="#{image.rating}" stars="5"/>
-                        <p:graphicImage value="#{controller.image.streamContent}">
+                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="313" autoPlay="false" showCaption="true">
+                        <p:rating stars="5" onRate="#{image.rating}"/>
+                        <h:commandButton class="btn btn-lg btn-primary btn-block" value="Submit Rating" onclick="#{controller.submitRating(image)}" style="width:100px; height:30px; float:right; padding:5px 10px;"/>
+                        <p:graphicImage value="#{controller.image.streamContent}" alt="#{image.filename}">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                     </p:galleria>

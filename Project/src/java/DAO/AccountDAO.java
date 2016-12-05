@@ -124,7 +124,6 @@ public class AccountDAO {
                     + account.getFirstName() + "','" + account.getLastName() + "','"
                     + account.getEmail() + "','" + account.getPassword() + "', "
                     + "0" + ")";
-            System.out.println(sql);
             st.executeUpdate(sql);
             connection.close();
         } catch (SQLException e) {
@@ -150,7 +149,6 @@ public class AccountDAO {
                     + account.getPassword()
                     + "' WHERE email = '"
                     + account.getEmail() + "'";
-            System.out.println(sql);
             st.executeUpdate(sql);
             connection.close();
         } catch (SQLException e) {
@@ -254,13 +252,13 @@ public class AccountDAO {
         return img;
     }
     
-    public void updateRating(Image image, int rating)
+    public void updateRating(Image image)
     {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "UPDATE PHOTOS SET RATING = " + rating 
-                    + ", TOTAL = " + 5 + " WHERE EMAIL = " + image.getEmail();
+            String sql = "UPDATE PHOTOS SET RATING = " + image.getRating()
+                    + ", TOTAL = " + 5 + " WHERE PHOTOID = " + image.getPhotoid();
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();

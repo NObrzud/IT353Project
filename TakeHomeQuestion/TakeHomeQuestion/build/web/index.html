@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- based on http://www.srikanthtechnologies.com/blog/java/rest_service_client.aspx -->
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>   
+        <script language="javascript">
+            function check(){
+                var obj;
+                var url = "/TakeHomeQuestion/" + $("#username").val() +".json";
+                $().ready(function () {             
+                    $.get(url, function (data) {
+                        obj = JSON.parse(data);
+                        if(obj.username == $("#username").val()){
+                            $("div").text(obj.username + ": " +obj.status);
+                            if(obj.status == "Username Available"){
+                                $("div").css("color","#40FF00");
+                            }
+                            if(obj.status == "Already Taken"){
+                                $("div").css("color","red");
+                            }
+                        }
+                        else{
+                            $("div").text("");
+                        }
+                    }).fail($("div").text(""));
+                });
+            }            
+        </script>
+    </head>
+    <body>
+        Username:<br>
+        <input id="username" type="text" value="">
+        <div></div>
+        <br>
+	<input type="button" id="submit" onclick="check()" value="Check Availability"> 
+    </body>
+</html>
