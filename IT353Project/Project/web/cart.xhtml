@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Main</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <h:form class="form-signin">
+            <p:layout fullPage="true">
+                <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="dashboard.xhtml" value="Dashboard"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <h:dataTable id="cartTableId" value="#{controller.getCart()}" var="aRow"
+                                 border="1" cellpadding="2" cellspacing="2px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Filename"/>
+                            </f:facet>
+                            <h:outputText value="#{aRow.name}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Email"/>
+                            </f:facet>
+                            <h:outputText value="#{aRow.email}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Price"/>
+                            </f:facet>
+                            <h:outputText value="$#{aRow.price}"/>
+                        </h:column>
+                    </h:dataTable>
+                    <h:dataTable>
+                            <h:column>
+                                <f:facet name = "header">
+                                    <h:outputText value="Total Price"/>
+                                </f:facet>
+                                <h:outputText value="$#{controller.getTotalPrice()}"/>
+                            </h:column>
+                        </h:dataTable>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
+</html>

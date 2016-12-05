@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+         <h1 class="form-signin-heading" align="center"> Sign in: </h1>
+        <h:form class = "form-signin">
+            <h3 class="form-signin-heading"> Email: </h3>
+            <h:inputText class="form-signin-heading" id="username" value="#{controller.account.email}"></h:inputText>
+            <br></br>
+            <h3 class="form-signin-heading"> Password: </h3>
+            <h:inputSecret class="form-signin-heading" id="password" value="#{controller.account.password}"></h:inputSecret>
+            <h:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign in" action="#{controller.signIn()}"></h:commandButton>
+            <br></br>
+            Don't have an account? Click <h:commandLink id="signup" action="register.xhtml" value="here"></h:commandLink> to register.<br></br>
+            Forgot your password? Click <h:commandLink id="forgot" action="forgotpassword.xhtml" value="here"></h:commandLink> to recover.
+            
+        </h:form>
+    </h:body>
+</html>
+
