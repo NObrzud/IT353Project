@@ -26,13 +26,12 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="313" autoPlay="false" showCaption="true">
-                        <p:rating stars="5" onRate="#{image.rating}"/>
-                        <h:commandButton class="btn btn-lg btn-primary btn-block" value="Submit Rating" onclick="#{controller.submitRating(image)}" style="width:100px; height:30px; float:right; padding:5px 10px;"/>
-<<<<<<< HEAD
+                        Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
+                        Rate this image! <p:rating stars="5" value="#{controller.userRating}"> 
+                            <input type="hidden" name="myimage" value="#{image.photoid}"/>
+                            <p:ajax event="rate" listener="#{controller.onrate}"></p:ajax>
+                        </p:rating>
                         <p:graphicImage value="#{controller.image.streamContent}" alt="#{image.filename}">
-=======
-                        <p:graphicImage value="#{controller.image.streamContent}">
->>>>>>> 76eded343a9a913c87f5737fd27dcbb5cd05bb2f
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                     </p:galleria>

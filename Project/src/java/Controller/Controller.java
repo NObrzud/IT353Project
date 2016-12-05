@@ -16,6 +16,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -28,6 +29,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.RateEvent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
@@ -35,14 +37,15 @@ import org.primefaces.model.UploadedFile;
  *
  * @author it353F620
  */
-@ManagedBean
-@SessionScoped
+@ManagedBean(eager=false)
+@ApplicationScoped
 public class Controller {
 
     private Account account;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
     private Image image;
+    private int userRating=0;
 
     public Controller() {
         account = new Account();
@@ -257,15 +260,13 @@ public class Controller {
         }
     }
     
-    //Method to submit the rating to the current photo
-    public void submitRating(Image image)
-    {
+    public void onrate(RateEvent rateEvent){
+        int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("myimage"));
+        userRating = ((Integer)rateEvent.getRating()).intValue();
         AccountDAO ad = new AccountDAO();
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(image.getFilename());
-        ad.updateRating(image);
+        ad.updateRating(id, userRating);
     }
-
+    
     /**
      * @return the account
      */
@@ -309,5 +310,14 @@ public class Controller {
     public void setImage(Image image) {
         this.image = image;
     }
+
+    public int getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(int userRating) {
+        this.userRating = userRating;
+    }
+    
     
 }

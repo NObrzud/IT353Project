@@ -252,13 +252,13 @@ public class AccountDAO {
         return img;
     }
     
-    public void updateRating(Image image)
+    public void updateRating(int id, int rating)
     {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "UPDATE PHOTOS SET RATING = " + image.getRating()
-                    + ", TOTAL = " + 5 + " WHERE PHOTOID = " + image.getPhotoid();
+            String sql = "UPDATE PHOTOS SET RATING = RATING+" + rating
+                    + ", TOTAL = TOTAL+" + 5 + " WHERE PHOTOID = " + id;
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();
