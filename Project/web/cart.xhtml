@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Main</title>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
@@ -13,19 +14,14 @@
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="dashboard.xhtml" value="Dashboard"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <h:form>
-                        <p:fileUpload fileUploadListener="#{controller.upload}" mode="advanced" dragDropSupport="false"
-                                      update="messages" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
-                            
-                        </p:fileUpload>
-                        <p:growl id="messages" showDetail="true" />
-                    </h:form>
+                    
                 </p:layoutUnit>
             </p:layout>
         </h:form>

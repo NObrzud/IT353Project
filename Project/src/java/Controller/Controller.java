@@ -127,7 +127,7 @@ public class Controller {
 
     public void upload(FileUploadEvent event) {
         AccountDAO ad = new AccountDAO();
-        int x = ad.uploadImage(event, account);
+        int x = ad.uploadImage(event, account, 4.99);
     }
 
     /**
@@ -266,6 +266,32 @@ public class Controller {
         userRating = ((Integer)rateEvent.getRating()).intValue();
         AccountDAO ad = new AccountDAO();
         ad.updateRating(id, userRating);
+    }
+    
+    public void addToCart()
+    {
+        int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("myimage"));
+        String fn = "";
+        String em = "";
+        double price = 0;
+        for(int i = 0; i < imageArr.size(); i++){
+            if(imageArr.get(i).getPhotoid() == id){
+                Image tempImage = imageArr.get(i);
+                fn = tempImage.getFilename();
+                price = tempImage.getPrice();
+                em = tempImage.getEmail();
+            }
+        }
+        AccountDAO ad = new AccountDAO();
+        ad.addToCart(fn, em, price);
+    }
+    
+    public String logout()
+    {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        AccountDAO ad = new AccountDAO();
+        ad.emptyCart();
+        return "index.xhtml";
     }
     
     /**

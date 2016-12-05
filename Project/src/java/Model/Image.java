@@ -28,13 +28,14 @@ public class Image {
     private int rating;
     private int total;
     private Date submitted;
+    private double price;
     private StreamedContent streamContent;
 
     public Image() {
 
     }
 
-    public Image(int photoid, String filename, String email, byte[] content, int rating, int total, Date submitted) {
+    public Image(int photoid, String filename, String email, byte[] content, int rating, int total, Date submitted, double price) {
         this.photoid = photoid;
         this.filename = filename;
         this.email = email;
@@ -42,6 +43,7 @@ public class Image {
         this.rating = rating;
         this.total = total;
         this.submitted = submitted;
+        this.price = price;
         this.streamContent = getStreamContent();
     }
 
@@ -130,6 +132,14 @@ public class Image {
 
     public void setStreamContent(StreamedContent streamContent) {
         this.streamContent = streamContent;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 }

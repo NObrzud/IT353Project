@@ -158,12 +158,12 @@ public class AccountDAO {
         return 1;
     }
 
-    public int uploadImage(FileUploadEvent event, Account account) {
+    public int uploadImage(FileUploadEvent event, Account account, double price) {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE)";
-            String values = "values (?,?,?,?,?,?)";
+            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE, PRICE)";
+            String values = "values (?,?,?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql + values);
             ps.setString(1, event.getFile().getFileName());
             ps.setString(2, account.getEmail());
@@ -171,6 +171,7 @@ public class AccountDAO {
             ps.setInt(4, 0);
             ps.setBytes(5, event.getFile().getContents());
             ps.setDate(6, new Date(Calendar.getInstance().getTime().getTime()));
+            ps.setDouble(7, price);
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -195,7 +196,7 @@ public class AccountDAO {
             int photoid, rating, total;
             byte[] content;
             Date submitted;
-
+            double price;
             while (rs.next()) {
                 photoid = rs.getInt("PHOTOID");
                 filename = rs.getString("FILENAME");
@@ -204,8 +205,8 @@ public class AccountDAO {
                 rating = rs.getInt("RATING");
                 total = rs.getInt("TOTAL");
                 submitted = rs.getDate("SUBMISSIONDATE");
-
-                img = new Image(photoid, filename, email, content, rating, total, submitted);
+                price = rs.getDouble("PRICE");
+                img = new Image(photoid, filename, email, content, rating, total, submitted, price);
                 imagecollection.add(img);
             }
             rs.close();
@@ -259,6 +260,37 @@ public class AccountDAO {
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE PHOTOS SET RATING = RATING+" + rating
                     + ", TOTAL = TOTAL+" + 5 + " WHERE PHOTOID = " + id;
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public void addToCart(String filename, String email, double price)
+    {
+          try {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "INSERT INTO CART (EMAIL, NAME, PRICE) VALUES (?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setString(2, filename);
+            ps.setDouble(3, price);
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public void emptyCart()
+    {
+        try {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "DELETE * FROM CART";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();

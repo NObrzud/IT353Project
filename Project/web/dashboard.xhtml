@@ -17,18 +17,18 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
                     <div></div>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="Cart"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>
                     <div></div>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.addToCart()}" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" alt="#{image.filename}">
-                            <input type="hidden" name="myimage" value="#{image.photoid}"/>
+                            <f:param name="myimage" value="#{image.photoid}"/>
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                     </p:galleria>
