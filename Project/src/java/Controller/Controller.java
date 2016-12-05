@@ -261,6 +261,7 @@ public class Controller {
     }
     
     public void onrate(RateEvent rateEvent){
+        System.out.println("test");
         int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("myimage"));
         userRating = ((Integer)rateEvent.getRating()).intValue();
         AccountDAO ad = new AccountDAO();
