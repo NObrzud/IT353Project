@@ -41,8 +41,6 @@ public class Controller {
 
     private Account account;
     private UploadedFile file;
-    private Integer rating;
-    private int photoId;
     private ArrayList<Image> imageArr;
     private Image image;
 
@@ -50,8 +48,6 @@ public class Controller {
         account = new Account();
         getImagesFromDB();
         image=new Image();
-        rating = -1;
-        photoId = -1;
     }
     
     public void getImagesFromDB(){
@@ -262,9 +258,12 @@ public class Controller {
     }
     
     //Method to submit the rating to the current photo
-    public void submitRating()
+    public void submitRating(Image image)
     {
         AccountDAO ad = new AccountDAO();
+        System.out.println("@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println(image.getFilename());
+        ad.updateRating(image);
     }
 
     /**
@@ -295,20 +294,6 @@ public class Controller {
         this.file = file;
     }
 
-    /**
-     * @return the rating
-     */
-    public Integer getRating() {
-        return rating;
-    }
-
-    /**
-     * @param rating the rating to set
-     */
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
     public ArrayList<Image> getImageArr() {
         return imageArr;
     }
@@ -323,20 +308,6 @@ public class Controller {
 
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    /**
-     * @return the photoId
-     */
-    public int getPhotoId() {
-        return photoId;
-    }
-
-    /**
-     * @param photoId the photoId to set
-     */
-    public void setPhotoId(int photoId) {
-        this.photoId = photoId;
     }
     
 }
