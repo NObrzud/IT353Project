@@ -7,6 +7,5 @@ CREATE TABLE PHOTOS(
     total INTEGER NOT NULL,
     imagecontent BLOB NOT NULL,
     submissiondate DATE NOT NULL,
-    price DECIMAL(6,2) NOT NULL,
     FOREIGN KEY (email) REFERENCES ACCOUNT
 );

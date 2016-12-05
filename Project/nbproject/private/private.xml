@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Nick/Desktop/IT353/Project/src/java/Controller/Controller.java</file>
-            <file>file:/C:/Users/Nick/Desktop/IT353/Project/src/java/Model/Image.java</file>
-            <file>file:/C:/Users/Nick/Desktop/IT353/Project/web/dashboard.xhtml</file>
-            <file>file:/C:/Users/Nick/Desktop/IT353/Project/src/java/DAO/AccountDAO.java</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/src/java/DAO/AccountDAO.java</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/src/java/Model/Account.java</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/src/java/Model/Image.java</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/web/dashboard.xhtml</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/web/upload.xhtml</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/src/java/Controller/Controller.java</file>
+            <file>file:/C:/Users/Cedomir%20Spalevic/Documents/NetBeansProjects/IT353Project/Project/web/cart.xhtml</file>
         </group>
     </open-files>
 </project-private>

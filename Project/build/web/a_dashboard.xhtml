@@ -13,28 +13,18 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Royalties"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <div></div>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="Cart"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>
-                    <div></div>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.addToCart()}" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
-                    <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
-                        Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
-                        <input type="hidden" name="myimage" value="#{image.photoid}"/>
                     </p:galleria>
-                    Rate this image! <p:rating stars="5" value="#{controller.userRating}"> 
-                            <p:ajax event="rate" listener="#{controller.onrate}"></p:ajax>
-                        </p:rating>
                 </p:layoutUnit>
                 <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
                     Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink></p:layoutUnit>
