@@ -39,7 +39,7 @@ import org.primefaces.model.UploadedFile;
  * @author it353F620
  */
 @ManagedBean(eager=false)
-@ApplicationScoped
+@SessionScoped
 public class Controller {
 
     private Account account;
@@ -313,7 +313,7 @@ public class Controller {
         return "index.xhtml";
     }
     
-    public void updateAccount()
+    public String updateAccount()
     {
         boolean update = true;
         //Making sure all values have been inputed
@@ -324,21 +324,6 @@ public class Controller {
         }
         if (account.getLastName().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your lastname.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            update = false;
-        }
-        if (account.getNewEmail().equals("")) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a email.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-            update = false;
-        }
-        if (account.getNewEmail().charAt(0)=='.' ||
-                account.getEmail().charAt(account.getEmail().length()-1)=='.' ||
-                account.getEmail().charAt(0)=='@' ||
-                account.getEmail().charAt(account.getEmail().length()-1)=='@' ||
-                !account.getEmail().contains("@") ||
-                !account.getEmail().contains(".")) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a valid email.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             update = false;
         }
@@ -360,6 +345,8 @@ public class Controller {
         }
        AccountDAO ad = new AccountDAO();
        if(update) ad.updateProfile(account);
+       
+       return "dashboard.xhtml";
     }
     
     /**

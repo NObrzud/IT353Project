@@ -90,15 +90,27 @@ public class AccountDAO {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String u = rs.getString("EMAIL");
+                String fn = rs.getString("FIRSTNAME");
+                String ln = rs.getString("LASTNAME");
+                String e = rs.getString("EMAIL");
                 String p = rs.getString("PASSWORD");
-                String admin = rs.getString("ADMIN");
-                if (username.equals(u)) {
+                int admin = rs.getInt("ADMIN");
+                if (username.equals(e)) {
                     if (!password.equals(p)) {
                         return 0;
-                    } else if (admin.equals("1")) {
+                    } else if (admin == 1) {
+                        account.setEmail(e);
+                        account.setFirstName(fn);
+                        account.setLastName(ln);
+                        account.setIsAdmin(admin);
+                        account.setPassword(password);
                         return 2;
                     } else {
+                        account.setEmail(e);
+                        account.setFirstName(fn);
+                        account.setLastName(ln);
+                        account.setIsAdmin(admin);
+                        account.setPassword(password);
                         return 1;
                     }
                 }
@@ -261,11 +273,10 @@ public class AccountDAO {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE ACCOUNT SET "
-                    + "FIRSTNAME = " + account.getFirstName() + ", "
-                    + "LASTNAME = " + account.getLastName() + ", "
-                    + "PASSWORD = " + account.getPassword() + ", "
-                    + "EMAIL = " + account.getEmail()
-                    + "WHERE EMAIL = " + account.getNewEmail();
+                    + "FIRSTNAME = '"+ account.getFirstName() + "', "
+                    + "LASTNAME = '" + account.getLastName() + "', "
+                    + "PASSWORD = '" + account.getPassword() +"' "
+                    + "WHERE EMAIL = '" + account.getEmail()+"'";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();

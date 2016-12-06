@@ -9,26 +9,33 @@
         <link href="signin.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
-        <h1 class="form-signin-heading" align="center"> Register:</h1>
+        <h1 class="form-signin-heading" align="center">Update Account:</h1>
         <h:form class="form-signin">
             <p:growl id="message" showDetail="true"/>
+            <h3 class="form-signin-heading">Please update your account information:</h3>
+            <h:inputText  readonly="true" value="#{controller.account.email}"></h:inputText>
+            <br></br>
             <h3 class="form-signin-heading"> First name: </h3>
             <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
             <h3 class="form-signin-heading"> Last name: </h3>
             <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
-            <h3 class="form-signin-heading"> Email:  </h3>
-            <h:inputText id="email" value="#{controller.account.email}">
-                <f:ajax event="keyup" render="emailResult"></f:ajax>
-            </h:inputText>
-            <h:outputText id="emailResult" escape="false" value="#{controller.checkValidEmail()}" />
             <h3 class="form-signin-heading"> Password: </h3>
             <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
             <h3 class="form-signin-heading"> Confirm password:</h3>
             <h:inputSecret id="confirmPassword" value="#{controller.account.confirmPass}"></h:inputSecret>
             <br></br>
-            <p:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign up" action="#{controller.authenticate()}" update="message"></p:commandButton>
+            <p:commandButton class="btn btn-lg btn-primary btn-block" id="updatebutton" value="Update Account" 
+                             action="#{controller.updateAccount()}" update="message">
+                <f:ajax onevent="updateAccount()"/>
+            </p:commandButton>
+            <script>
+                    function updateAccount()
+                    {
+                        alert("Account upodated!");
+                    }
+            </script>
             <br></br>
-            <h:commandButton class="btn btn-lg btn-warning btn-block" id="cancelbutton" value="Cancel" action="index.xhtml"></h:commandButton>
+            <h:commandButton class="btn btn-lg btn-warning btn-block" id="cancelbutton" value="Dashboard" action="dashboard.xhtml"></h:commandButton>
             <br></br>
         </h:form>
     </h:body>

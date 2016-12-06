@@ -1,5 +1,0 @@
-CREATE TABLE CART(
-    email VARCHAR(255) NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    price DECIMAL(6,2)    
-);

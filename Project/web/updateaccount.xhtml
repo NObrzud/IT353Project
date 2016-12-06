@@ -12,18 +12,13 @@
         <h1 class="form-signin-heading" align="center">Update Account:</h1>
         <h:form class="form-signin">
             <p:growl id="message" showDetail="true"/>
-            <h3 class="form-signin-heading">Please enter your current email:</h3>
-            <h:inputText id="currentEmail" value="#{controller.account.email}"></h:inputText>
+            <h3 class="form-signin-heading">Please update your account information:</h3>
+            <h:inputText  readonly="true" value="#{controller.account.email}"></h:inputText>
             <br></br>
             <h3 class="form-signin-heading"> First name: </h3>
             <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
             <h3 class="form-signin-heading"> Last name: </h3>
             <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
-            <h3 class="form-signin-heading"> Email:  </h3>
-            <h:inputText id="email" value="#{controller.account.newEmail}">
-                <f:ajax event="keyup" render="emailResult"></f:ajax>
-            </h:inputText>
-            <h:outputText id="emailResult" escape="false" value="#{controller.checkValidEmail()}" />
             <h3 class="form-signin-heading"> Password: </h3>
             <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
             <h3 class="form-signin-heading"> Confirm password:</h3>

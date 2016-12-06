@@ -16,7 +16,6 @@ public class Account {
     private String password;
     private String confirmPass;
     private String email;
-    private String newEmail;
     private int isAdmin;
     
     public Account() {
@@ -108,19 +107,4 @@ public class Account {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    /**
-     * @return the newEmail
-     */
-    public String getNewEmail() {
-        return newEmail;
-    }
-
-    /**
-     * @param newEmail the newEmail to set
-     */
-    public void setNewEmail(String newEmail) {
-        this.newEmail = newEmail;
-    }
-
 }
