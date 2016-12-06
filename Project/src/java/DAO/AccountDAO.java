@@ -254,6 +254,28 @@ public class AccountDAO {
         return img;
     }
     
+    public void updateProfile(Account account)
+    {
+        try
+        {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "UPDATE ACCOUNT SET "
+                    + "FIRSTNAME = " + account.getFirstName() + ", "
+                    + "LASTNAME = " + account.getLastName() + ", "
+                    + "PASSWORD = " + account.getPassword() + ", "
+                    + "EMAIL = " + account.getEmail()
+                    + "WHERE EMAIL = " + account.getNewEmail();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.execute();
+            ps.close();
+        } 
+        catch (SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
+    
     public void updateRating(int id, int rating)
     {
         try {

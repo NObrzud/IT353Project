@@ -313,6 +313,55 @@ public class Controller {
         return "index.xhtml";
     }
     
+    public void updateAccount()
+    {
+        boolean update = true;
+        //Making sure all values have been inputed
+        if (account.getFirstName().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your firstname.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        if (account.getLastName().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your lastname.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        if (account.getNewEmail().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a email.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        if (account.getNewEmail().charAt(0)=='.' ||
+                account.getEmail().charAt(account.getEmail().length()-1)=='.' ||
+                account.getEmail().charAt(0)=='@' ||
+                account.getEmail().charAt(account.getEmail().length()-1)=='@' ||
+                !account.getEmail().contains("@") ||
+                !account.getEmail().contains(".")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a valid email.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        if (account.getPassword().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a password.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        if (account.getConfirmPass().equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please confirm your password.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+        //Making sure password and confirm password are the same
+        if (!account.getPassword().equals(account.getConfirmPass())) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Passwords don't match.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            update = false;
+        }
+       AccountDAO ad = new AccountDAO();
+       if(update) ad.updateProfile(account);
+    }
+    
     /**
      * @return the account
      */
