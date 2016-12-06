@@ -29,13 +29,14 @@ public class Image {
     private int total;
     private Date submitted;
     private double price;
+    private int winner;
     private StreamedContent streamContent;
 
     public Image() {
 
     }
 
-    public Image(int photoid, String filename, String email, byte[] content, int rating, int total, Date submitted, double price) {
+    public Image(int photoid, String filename, String email, byte[] content, int rating, int total, Date submitted, double price, int winner) {
         this.photoid = photoid;
         this.filename = filename;
         this.email = email;
@@ -44,6 +45,7 @@ public class Image {
         this.total = total;
         this.submitted = submitted;
         this.price = price;
+        this.winner = winner;
         this.streamContent = getStreamContent();
     }
 
@@ -140,6 +142,14 @@ public class Image {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getWinner() {
+        return winner;
+    }
+
+    public void setWinner(int winner) {
+        this.winner = winner;
     }
 
 }

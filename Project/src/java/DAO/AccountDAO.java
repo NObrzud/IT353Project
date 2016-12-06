@@ -175,8 +175,8 @@ public class AccountDAO {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE, PRICE)";
-            String values = "values (?,?,?,?,?,?,?)";
+            String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE, PRICE, WINNER)";
+            String values = "values (?,?,?,?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql + values);
             ps.setString(1, event.getFile().getFileName());
             ps.setString(2, account.getEmail());
@@ -185,6 +185,7 @@ public class AccountDAO {
             ps.setBytes(5, event.getFile().getContents());
             ps.setDate(6, new Date(Calendar.getInstance().getTime().getTime()));
             ps.setDouble(7, price);
+            ps.setInt(8, 0);
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -206,7 +207,7 @@ public class AccountDAO {
 
             ResultSet rs = stmt.executeQuery(query);
             String filename, email;
-            int photoid, rating, total;
+            int photoid, rating, total, winner;
             byte[] content;
             Date submitted;
             double price;
@@ -219,7 +220,8 @@ public class AccountDAO {
                 total = rs.getInt("TOTAL");
                 submitted = rs.getDate("SUBMISSIONDATE");
                 price = rs.getDouble("PRICE");
-                img = new Image(photoid, filename, email, content, rating, total, submitted, price);
+                winner = rs.getInt("WINNER");
+                img = new Image(photoid, filename, email, content, rating, total, submitted, price, winner);
                 imagecollection.add(img);
             }
             rs.close();
@@ -322,7 +324,7 @@ public class AccountDAO {
     
     public ArrayList<Cart> getCart()
     {
-        ArrayList<Cart> cart = new ArrayList<Cart>();
+        ArrayList<Cart> c = new ArrayList<Cart>();
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
@@ -337,8 +339,7 @@ public class AccountDAO {
                 name = rs.getString("NAME");
                 email = rs.getString("EMAIL");
                 price = rs.getDouble("PRICE");
-                Cart tempCart = new Cart(email, name, price);
-                cart.add(tempCart);
+                c.add(new Cart(email, name, price));
             }
             rs.close();
             stmt.close();
@@ -351,7 +352,7 @@ public class AccountDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cart;
+        return c;
     }
     
     public void emptyCart()

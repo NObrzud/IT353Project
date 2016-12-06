@@ -9,26 +9,18 @@
         <link href="signin.css" rel="stylesheet"></link>
     </h:head>
     <h:body>
-        <h1 class="form-signin-heading" align="center"> Register:</h1>
+        <h1 class="form-signin-heading" align="center"> Enter Payment Information:</h1>
         <h:form class="form-signin">
             <p:growl id="message" showDetail="true"/>
-            <h3 class="form-signin-heading"> First name: </h3>
-            <h:inputText id="firstName" value="#{controller.account.firstName}"></h:inputText>
-            <h3 class="form-signin-heading"> Last name: </h3>
-            <h:inputText id="lastName" value="#{controller.account.lastName}"></h:inputText>
-            <h3 class="form-signin-heading"> Email:  </h3>
-            <h:inputText id="email" value="#{controller.account.email}">
-                <f:ajax event="keyup" render="emailResult"></f:ajax>
-            </h:inputText>
-            <h:outputText id="emailResult" escape="false" value="#{controller.checkValidEmail()}" />
-            <h3 class="form-signin-heading"> Password: </h3>
-            <h:inputSecret id="password" value="#{controller.account.password}"></h:inputSecret>
-            <h3 class="form-signin-heading"> Confirm password:</h3>
-            <h:inputSecret id="confirmPassword" value="#{controller.account.confirmPass}"></h:inputSecret>
+            <h3 class="form-signin-heading"> Credit Card Number: </h3>
+            <h:inputText id="firstName" value=""></h:inputText>
+            <h3 class="form-signin-heading"> Name on Card: </h3>
+            <h:inputText id="lastName" value=""></h:inputText>
             <br></br>
             <p:commandButton class="btn btn-lg btn-primary btn-block" id="loginbutton" value="Sign up" action="#{controller.authenticate()}" update="message"></p:commandButton>
             <br></br>
             <h:commandButton class="btn btn-lg btn-warning btn-block" id="cancelbutton" value="Cancel" action="index.xhtml"></h:commandButton>
+            <br></br>
         </h:form>
     </h:body>
 

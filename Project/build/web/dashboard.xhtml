@@ -13,9 +13,9 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="updateaccount.xhtml" value="Update Account"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="updateaccount.xhtml" value="Update Account"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
@@ -27,7 +27,8 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.addToCart()}" value="+"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>&emsp;
                     <div></div>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
-                        Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"/> <br></br>
+                        Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"> 
+                        </p:rating> <br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
@@ -38,7 +39,8 @@
                         </p:rating>
                 </p:layoutUnit>
                 <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
-                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink></p:layoutUnit>
+                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink>
+                </p:layoutUnit>
             </p:layout>
         </h:form>
     </h:body>

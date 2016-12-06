@@ -45,14 +45,16 @@ public class Controller {
     private Account account;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
+    private ArrayList<Image> winnerArr;
     private ArrayList<Cart> cart;
     private Image image;
     private int userRating=0;
 
     public Controller() {
         account = new Account();
+        image = new Image();
         getImagesFromDB();
-        image=new Image();
+        getWinnerImagesFromDB();
     }
     
     public void getImagesFromDB(){
@@ -60,10 +62,16 @@ public class Controller {
         String query = "SELECT * FROM PHOTOS";
         imageArr = dao.getImages(query);
     }
+    public void getWinnerImagesFromDB(){
+        AccountDAO dao = new AccountDAO();
+        String query = "SELECT * FROM PHOTOS WHERE WINNER = 1";
+        winnerArr = dao.getImages(query);
+    }
     
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
+        ad.emptyCart();
         int x = ad.login(account);
         if (x == 1) {
             return "dashboard.xhtml";
@@ -291,15 +299,17 @@ public class Controller {
     public ArrayList<Cart> getCart()
     {
         AccountDAO ad = new AccountDAO();
-        this.cart = ad.getCart();
-        return this.cart;
+        cart = ad.getCart();
+        return cart;
     }
     
     public double getTotalPrice()
     {
-        double price = 0;
+        double price = 0.0;
+        System.out.println("$$$" + cart.size());
         for(int i = 0; i < cart.size(); i++)
         {
+            System.out.println(cart.get(i).getPrice()+"$$$");          
             price += cart.get(i).getPrice();
         }
         return price;
@@ -399,6 +409,14 @@ public class Controller {
 
     public void setUserRating(int userRating) {
         this.userRating = userRating;
+    }
+
+    public ArrayList<Image> getWinnerArr() {
+        return winnerArr;
+    }
+
+    public void setWinnerArr(ArrayList<Image> winnerArr) {
+        this.winnerArr = winnerArr;
     }
     
     

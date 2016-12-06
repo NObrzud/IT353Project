@@ -8,5 +8,6 @@ CREATE TABLE PHOTOS(
     imagecontent BLOB NOT NULL,
     submissiondate DATE NOT NULL,
     price DECIMAL(6,2) NOT NULL,
+    winner INTEGER NOT NULL,
     FOREIGN KEY (email) REFERENCES ACCOUNT
 );

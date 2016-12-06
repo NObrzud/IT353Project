@@ -12,9 +12,9 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="updateaccount.xhtml" value="Update Account"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="dashboard.xhtml" value="Dashboard"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="uupdateaccount.xhtml" value="Update Account"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="index.xhtml" value="Logout"/>
@@ -28,6 +28,9 @@
                         <p:growl id="messages" showDetail="true" />
                     </h:form>
                 </p:layoutUnit>
+                <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
+                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink>
+                 </p:layoutUnit>
             </p:layout>
         </h:form>
     </h:body>
