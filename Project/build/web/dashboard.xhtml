@@ -21,6 +21,7 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
+                    <p:growl id="message" showDetail="true"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="Cart"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"> 

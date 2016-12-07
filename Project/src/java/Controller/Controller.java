@@ -10,6 +10,7 @@ import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
 import Model.Cart;
+import Model.CreditCard;
 import Model.Image;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -29,7 +30,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.RateEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -41,18 +41,20 @@ import org.primefaces.model.UploadedFile;
 public class Controller {
 
     private Account account;
+    private Image image;
+    private CreditCard creditCard;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
     private ArrayList<String> imageNamesArr;
     private ArrayList<Image> winnerArr;
     private ArrayList<Cart> cart;
-    private Image image;
     private int userRating;
     private String dropDownString;
 
     public Controller() {
         account = new Account();
         image = new Image();
+        creditCard = new CreditCard();
         userRating = 0;
         dropDownString = "";
         getImagesFromDB();
@@ -144,6 +146,27 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
+        if(creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16 
+                || !validCreditCard(creditCard.getAccountNumber())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Number.", "Please enter a valid Credit Card Number.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "register.xhtml";
+        }
+        if(creditCard.getCardName().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Information.", "Please enter a name for your Credit Card name.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "register.xhtml";
+        }
+        if(creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "register.xhtml";
+        }
+        if(creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "register.xhtml";
+        }
         //Register
         AccountDAO ad = new AccountDAO();
         if (ad.register(account) == 1) {
@@ -151,6 +174,68 @@ public class Controller {
         } else {
             return "register.xhtml";
         }
+    }
+    
+    public String authenticateCreditCardInformation()
+    {
+        if(creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16 
+                || !validCreditCard(creditCard.getAccountNumber())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Number.", "Please enter a valid Credit Card Number.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "pay.xhtml";
+        }
+        if(creditCard.getCardName().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Information.", "Please enter a name for your Credit Card name.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "pay.xhtml";
+        }
+        if(creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "pay.xhtml";
+        }
+        if(creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "pay.xhtml";
+        }
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thank you!", "Thank you for purchasing these images.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        return "dashboard.xhtml";
+    }
+    
+    private boolean validateSecurityCode(String code)
+    {
+        if(code.length() != 3) return false;
+        if( !isDigit(code.charAt(0)) || !isDigit(code.charAt(1)) || !isDigit(code.charAt(2))) return false;
+        return true;
+    }
+    
+    private boolean validateExpirationDate(String date)
+    {
+        if(date.length() != 5) return false;
+        if(date.charAt(2) != '/') return false;
+        if( !isDigit(date.charAt(0)) || !isDigit(date.charAt(1))
+             || !isDigit(date.charAt(3)) || !isDigit(date.charAt(4)))
+                        return false;
+        return true;
+    }
+    
+    private boolean validCreditCard(String name)
+    {
+        for(int i = 0; i < name.length(); i++)
+        {
+            if(!isDigit(name.charAt(i))) return false;
+        }
+        return true;
+    }
+    
+    private boolean isDigit(char x)
+    {
+        if(x == '1' || x == '2' || x == '3' || x == '4' || x == '5' || x == '6' || x == '7' 
+                || x == '8' || x == '9' || x == '0')
+            return true;
+        return false;
     }
 
     public void upload(FileUploadEvent event) {
@@ -446,4 +531,18 @@ public class Controller {
     public void setDropDownString(String dropDownString) {
         this.dropDownString = dropDownString;
     }    
+
+    /**
+     * @return the creditCard
+     */
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    /**
+     * @param creditCard the creditCard to set
+     */
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
+    }
 }
