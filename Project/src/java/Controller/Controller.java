@@ -78,12 +78,24 @@ public class Controller {
     public String signIn() {
         AccountDAO ad = new AccountDAO();
         ad.emptyCart();
+        if(account.getEmail().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Login", "Invalid Username/Password. Please try again.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "index.xhtml";
+        }
+        if(account.getPassword().equals("")){
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Login", "Invalid Username/Password. Please try again.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "index.xhtml";
+        }
         int x = ad.login(account);
         if (x == 1) {
             return "dashboard.xhtml";
         } else if (x == 2) {
             return "a_dashboard.xhtml";
         } else {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Login", "Invalid Username/Password. Please try again.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
             return "login.xhtml";
         }
     }
@@ -96,7 +108,6 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        
         if (account.getLastName().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your lastname.");
             FacesContext.getCurrentInstance().addMessage(null, message);
