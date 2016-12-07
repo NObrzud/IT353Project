@@ -6,6 +6,7 @@
 package DAO;
 
 import Model.Account;
+import Model.AdminCart;
 import Model.Cart;
 import Model.Image;
 import java.sql.Connection;
@@ -306,7 +307,6 @@ public class AccountDAO {
     
     public void addToCart(String filename, String email, double price)
     {
-        if(filenameExistsInDB(filename)) return;
         try{
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
@@ -369,23 +369,69 @@ public class AccountDAO {
         }
     }
     
-    private boolean filenameExistsInDB(String filename)
+        public void addToAdminCart(Account acc, String filename, String email, double price)
+    {
+        try{
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "INSERT INTO ADMINCART (BUYER,EMAIL, NAME, PRICE) VALUES (?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, acc.getEmail());
+            ps.setString(2, email);
+            ps.setString(3, filename);
+            ps.setDouble(4, price);
+            ps.execute();
+            ps.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+        
+         public ArrayList<AdminCart> getAdminCart()
+    {
+        ArrayList<AdminCart> ac = new ArrayList<AdminCart>();
+        Connection DBConn = null;
+        try {
+            DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
+            Statement stmt = DBConn.createStatement();
+            String query = "SELECT * FROM ADMINCART";
+            ResultSet rs = stmt.executeQuery(query);
+            String name, email, buyer;
+            double price;
+            while (rs.next()) {
+                name = rs.getString("NAME");
+                email = rs.getString("EMAIL");
+                price = rs.getDouble("PRICE");
+                buyer = rs.getString("BUYER");
+                ac.add(new AdminCart(buyer, email, name, price));
+            }
+            rs.close();
+            stmt.close();
+        } catch (Exception e) {
+            System.err.println("ERROR: Problems with SQL select");
+            e.printStackTrace();
+        }
+        try {
+            DBConn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ac;
+    }
+         
+         public void emptyAdminCart()
     {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            Statement stmt = connection.createStatement();
-            String query = "SELECT NAME FROM CART";
-            ResultSet rs = stmt.executeQuery(query);
-            String name, email;
-            double price;
-            while (rs.next()) {
-                name = rs.getString("NAME");
-                if(filename.equals(name)) return true;
-            }
+            String sql = "DELETE FROM ADMINCART";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.execute();
+            ps.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return false;
     }
 }

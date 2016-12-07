@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import Model.Account;
 import DAO.AccountDAO;
+import Model.AdminCart;
 import Model.Cart;
 import Model.CreditCard;
 import Model.Image;
@@ -48,6 +49,7 @@ public class Controller {
     private ArrayList<String> imageNamesArr;
     private ArrayList<Image> winnerArr;
     private ArrayList<Cart> cart;
+    private ArrayList<AdminCart> admincart;
     private int userRating;
     private String dropDownString;
 
@@ -378,6 +380,15 @@ public class Controller {
         ad.updateRating(dropDownString ,userRating);
     }
     
+    public String payroyalties(){
+        /* TODO SEND EMAIL */
+        AccountDAO ad = new AccountDAO();
+        ad.emptyAdminCart();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirmation:", "Royalties have been paid and an email confirmation will be sent.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+        return "payroyalties.xhtml";
+    }
+    
     public void addToCart()
     {
         String fn = "";
@@ -393,6 +404,7 @@ public class Controller {
         }
         AccountDAO ad = new AccountDAO();
         ad.addToCart(fn, em, price);
+        /* TODO*/ ad.addToAdminCart(account, fn, em, price);
     }
     
     public ArrayList<Cart> getCart()
@@ -545,4 +557,14 @@ public class Controller {
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
     }
+    public ArrayList<AdminCart> getAdmincart() {
+        AccountDAO dao = new AccountDAO();
+        admincart = dao.getAdminCart();
+        return admincart;
+    }
+
+    public void setAdmincart(ArrayList<AdminCart> admincart) {
+        this.admincart = admincart;
+    }
+    
 }
