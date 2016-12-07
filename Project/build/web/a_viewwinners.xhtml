@@ -13,28 +13,19 @@
         <h:form class="form-signin">
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="dashboard.xhtml" value="Home"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_dashboard.xhtml" value="Home"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Royalties"/>
+                    
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <p:dataTable id="cartTableId" value="#{controller.cart}" var="aRow" >
-                        <p:column headerText="Filename">
-                            <h:outputText value="#{aRow.name}"/>
-                        </p:column>
-                        <p:column headerText="Owner's Email">
-                            <h:outputText value="#{aRow.email}"/>
-                        </p:column>
-                        <p:column headerText="Price">
-                            <h:outputText value="$#{aRow.price}"/>
-                        </p:column>
-                    </p:dataTable>
-                    Total:
-                    <h:outputText value="$#{controller.getTotalPrice()}"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="pay.xhtml" value="Continue to Pay" style="height:50px;width:160px"/>
+                    <p:galleria value="#{controller.winnerArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="Winner for" alt="#{image.submitted}">
+                            <f:param name="pid" value="#{image.photoid}"/>
+                        </p:graphicImage>
+                    </p:galleria>
                 </p:layoutUnit>
                 <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
                     Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink>
