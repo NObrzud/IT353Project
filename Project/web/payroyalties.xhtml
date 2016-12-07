@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Main</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></link>
+        <link href="signin.css" rel="stylesheet"></link>
+    </h:head>
+    <h:body>
+        <h:form class="form-signin">
+            <p:layout fullPage="true">
+                <p:growl id="message" showDetail="true"/>
+                <p:layoutUnit position="west">
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_dashboard.xhtml" value="Home"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="viewwinners.xhtml" value="View Winners"/>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="center">
+                    <p:dataTable id="cartTableId" value="#{controller.admincart}" var="aRow" >
+                        <p:column headerText="Buyer">
+                            <h:outputText value="#{aRow.buyer}"/>
+                        </p:column>
+                        <p:column headerText="Filename">
+                            <h:outputText value="#{aRow.name}"/>
+                        </p:column>
+                        <p:column headerText="Owner's Email">
+                            <h:outputText value="#{aRow.email}"/>
+                        </p:column>
+                        <p:column headerText="Price">
+                            <h:outputText value="$#{aRow.price}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.payroyalties()}" value="Pay Royalties" style="height:50px;width:160px"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
+                    Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink>
+                </p:layoutUnit>
+            </p:layout>
+        </h:form>
+    </h:body>
+</html>
