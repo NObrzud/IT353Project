@@ -17,7 +17,6 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -31,7 +30,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.RateEvent;
-import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -45,16 +43,24 @@ public class Controller {
     private Account account;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
+    private ArrayList<String> imageNamesArr;
     private ArrayList<Image> winnerArr;
     private ArrayList<Cart> cart;
     private Image image;
-    private int userRating=0;
+    private int userRating;
+    private String dropDownString;
 
     public Controller() {
         account = new Account();
         image = new Image();
+        userRating = 0;
+        dropDownString = "";
         getImagesFromDB();
         getWinnerImagesFromDB();
+        imageNamesArr = new ArrayList<String>();
+        for(int i=0; i<imageArr.size(); i++){
+            imageNamesArr.add(imageArr.get(i).getFilename());
+        }
     }
     
     public void getImagesFromDB(){
@@ -90,6 +96,7 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
+        
         if (account.getLastName().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a your lastname.");
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -270,24 +277,20 @@ public class Controller {
         }
     }
     
-    public void onrate(RateEvent rateEvent){
-        System.out.println("test");
-        int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("myimage"));
-        userRating = ((Integer)rateEvent.getRating()).intValue();
+    public void onrate(){
         AccountDAO ad = new AccountDAO();
-        ad.updateRating(id, userRating);
+        ad.updateRating(dropDownString ,userRating);
     }
     
     public void addToCart()
     {
-        int id = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("myimage"));
         String fn = "";
         String em = "";
         double price = 0;
         for(int i = 0; i < imageArr.size(); i++){
-            if(imageArr.get(i).getPhotoid() == id){
+            if(imageArr.get(i).getFilename().equals(dropDownString)){
                 Image tempImage = imageArr.get(i);
-                fn = tempImage.getFilename();
+                fn = dropDownString;
                 price = tempImage.getPrice();
                 em = tempImage.getEmail();
             }
@@ -306,10 +309,8 @@ public class Controller {
     public double getTotalPrice()
     {
         double price = 0.0;
-        System.out.println("$$$" + cart.size());
         for(int i = 0; i < cart.size(); i++)
         {
-            System.out.println(cart.get(i).getPrice()+"$$$");          
             price += cart.get(i).getPrice();
         }
         return price;
@@ -418,6 +419,20 @@ public class Controller {
     public void setWinnerArr(ArrayList<Image> winnerArr) {
         this.winnerArr = winnerArr;
     }
-    
-    
+
+    public ArrayList<String> getImageNamesArr() {
+        return imageNamesArr;
+    }
+
+    public void setImageNamesArr(ArrayList<String> imageNamesArr) {
+        this.imageNamesArr = imageNamesArr;
+    }
+
+    public String getDropDownString() {
+        return dropDownString;
+    }
+
+    public void setDropDownString(String dropDownString) {
+        this.dropDownString = dropDownString;
+    }    
 }

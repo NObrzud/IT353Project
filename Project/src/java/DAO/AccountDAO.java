@@ -289,13 +289,13 @@ public class AccountDAO {
         }
     }
     
-    public void updateRating(int id, int rating)
+    public void updateRating(String fn, int rating)
     {
         try {
             String myDB = "jdbc:derby://localhost:1527/Project353";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE PHOTOS SET RATING = RATING+" + rating
-                    + ", TOTAL = TOTAL+" + 5 + " WHERE PHOTOID = " + id;
+                    + ", TOTAL = TOTAL+" + 5 + " WHERE FILENAME = '" + fn+"'";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.execute();
             ps.close();
