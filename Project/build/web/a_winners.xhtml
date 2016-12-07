@@ -14,15 +14,14 @@
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_dashboard.xhtml" value="Home"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="paywinners.xhtml" value="Pay Royalties"/>
-                    
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="payroyalties.xhtml" value="Pay Royalties"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
                     <p:galleria value="#{controller.winnerArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
-                        <p:graphicImage value="#{controller.image.streamContent}" title="Winner for" alt="#{image.submitted}">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="Winner for" alt="Week of #{image.submitted}">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                     </p:galleria>

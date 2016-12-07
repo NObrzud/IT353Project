@@ -14,17 +14,28 @@
             <p:layout fullPage="true">
                 <p:layoutUnit position="west">
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="payroyalties.xhtml" value="Pay Royalties"/>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_viewwinners.xhtml" value="View Winners"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_winners.xhtml" value="View Winners"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="changeweek.xhtml" value="Change Week"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
-                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}" style="width:500px;height:300">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                     </p:galleria>
+                    <h:form>
+                        <p:panelGrid columns ="4">
+                            Select image:
+                            <p:selectOneMenu  id="imagenames" value="#{controller.dropDownString}">
+                                <f:selectItems value="#{controller.imageNamesArr}" var="names" itemValue="#{names}"></f:selectItems>
+                                <f:ajax listener="#{controller.setDropDownString(names)}"/>
+                            </p:selectOneMenu> 
+                            <h:commandButton class="btn btn-lg btn-primary btn-block" value="Select Winner" style="width:130px;height:40px" action="#{controller.makeWinner}" />
+                        </p:panelGrid>
+                    </h:form>
                 </p:layoutUnit>
                 <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
                     Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink></p:layoutUnit>

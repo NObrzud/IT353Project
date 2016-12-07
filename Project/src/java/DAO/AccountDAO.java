@@ -195,6 +195,24 @@ public class AccountDAO {
         }
         return 1;
     }
+    
+    public void updateWinner(String filename){
+        try
+        {
+            String myDB = "jdbc:derby://localhost:1527/Project353";
+            Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
+            String sql = "UPDATE PHOTOS SET "
+                    + "WINNER = " + 1 + " "
+                    + "WHERE FILENAME = '" + filename+"'";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.execute();
+            ps.close();
+        } 
+        catch (SQLException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
 
     public ArrayList<Image> getImages(String query) {
         Image img;

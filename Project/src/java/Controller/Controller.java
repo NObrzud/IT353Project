@@ -13,6 +13,7 @@ import Model.AdminCart;
 import Model.Cart;
 import Model.CreditCard;
 import Model.Image;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.activation.DataHandler;
@@ -20,16 +21,9 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.*;
+import javax.mail.internet.*;
+import javax.activation.*;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -52,8 +46,10 @@ public class Controller {
     private ArrayList<AdminCart> admincart;
     private int userRating;
     private String dropDownString;
+    private WeekController wc;
 
     public Controller() {
+        wc = new WeekController();
         account = new Account();
         image = new Image();
         creditCard = new CreditCard();
@@ -69,8 +65,16 @@ public class Controller {
     
     public void getImagesFromDB(){
         AccountDAO dao = new AccountDAO();
-        String query = "SELECT * FROM PHOTOS";
+        java.sql.Date d1 = new java.sql.Date(wc.getStartDate().getTime());
+        java.sql.Date d2 = new java.sql.Date(wc.getEndDate().getTime());
+        String query = "SELECT * FROM PHOTOS WHERE SUBMISSIONDATE BETWEEN '"+d1+"' AND '"+d2+"'";
         imageArr = dao.getImages(query);
+    }
+    public void makeWinner(){
+        AccountDAO dao = new AccountDAO();
+        dao.updateWinner(dropDownString);
+        sendEmail(account.getEmail(),"it353project@gmail.com","You Won!", "Congratulations! \nYour image was selected as a winner for this week!");
+        
     }
     public void getWinnerImagesFromDB(){
         AccountDAO dao = new AccountDAO();
@@ -312,8 +316,8 @@ public class Controller {
         String to = recipient;
         String from = sender;
         String host = "smtp.gmail.com";
-        String username = "";
-        String password = "";
+        String username = "it353project@gmail.com";
+        String password = "nickandcharlie";
 
         // Get system properties
         Properties properties = System.getProperties();
@@ -327,7 +331,7 @@ public class Controller {
         properties.put("mail.smtp.port", "587");
 
         // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties,
+        Session session = Session.getInstance(properties,
                 new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -348,24 +352,7 @@ public class Controller {
             // Set Subject: header field
             message.setSubject(subject);
 
-            // Message + Img part 
-            MimeMultipart multipart = new MimeMultipart("related");
-
-            BodyPart messageBodyPart = new MimeBodyPart();
-
-            // Send the actual HTML message, as big as you like
-            messageBodyPart.setContent(content, "text/html");
-            multipart.addBodyPart(messageBodyPart);
-
-            messageBodyPart = new MimeBodyPart();
-            DataSource fds = new FileDataSource("I://Lab3/logo.png");
-
-            messageBodyPart.setDataHandler(new DataHandler(fds));
-            messageBodyPart.setHeader("Content-ID", "<image>");
-
-            multipart.addBodyPart(messageBodyPart);
-
-            message.setContent(multipart);
+            message.setText(content);
 
             // Send message
             Transport.send(message);
@@ -565,6 +552,14 @@ public class Controller {
 
     public void setAdmincart(ArrayList<AdminCart> admincart) {
         this.admincart = admincart;
+    }
+
+    public WeekController getWc() {
+        return wc;
+    }
+
+    public void setWc(WeekController wc) {
+        this.wc = wc;
     }
     
 }

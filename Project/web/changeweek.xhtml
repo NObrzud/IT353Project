@@ -15,28 +15,20 @@
                 <p:growl id="message" showDetail="true"/>
                 <p:layoutUnit position="west">
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_dashboard.xhtml" value="Home"/>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="payroyalties.xhtml" value="Pay Royalties"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_winners.xhtml" value="View Winners"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <p:dataTable id="cartTableId" value="#{controller.admincart}" var="aRow" >
-                        <p:column headerText="Buyer">
-                            <h:outputText value="#{aRow.buyer}"/>
-                        </p:column>
-                        <p:column headerText="Filename">
-                            <h:outputText value="#{aRow.name}"/>
-                        </p:column>
-                        <p:column headerText="Owner's Email">
-                            <h:outputText value="#{aRow.email}"/>
-                        </p:column>
-                        <p:column headerText="Price">
-                            <h:outputText value="$#{aRow.price}"/>
-                        </p:column>
-                    </p:dataTable>
-                    <br></br>
-                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.payroyalties()}" value="Pay Royalties" style="height:50px;width:160px"/>
+                    <p:panelGrid columns ="2">
+                        Select Start Date:
+                        <p:calendar id="popup" value="#{weekController.startDate}"/>
+                        Select End Date:
+                        <p:calendar id="popup2" value="#{weekController.endDate}"/>
+                    </p:panelGrid> <br></br>
+                    <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{weekController.setNewWeek()}" value="Set New Week" style="width:150px;height:40"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="south"> <img src="https://www.wired.com/wp-content/uploads/2015/09/google-logo-1200x630.jpg" width="40" height="20" alt="Google"/>
                     Sponsored by <h:outputLink value="http://google.com">Google</h:outputLink>
