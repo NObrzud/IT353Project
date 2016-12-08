@@ -22,6 +22,8 @@
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
                     <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
+                        Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"> 
+                    </p:rating><br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}" style="width:500px;height:300">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>

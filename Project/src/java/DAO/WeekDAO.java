@@ -18,7 +18,7 @@ public class WeekDAO {
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
             Statement stmt = DBConn.createStatement();
             String query = "SELECT * FROM WEEK";
@@ -45,7 +45,7 @@ public class WeekDAO {
     public void setNewWeek(Date start, Date end){
         try
         {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String query = "UPDATE WEEK SET STARTDATE='"
                     + start + "', "

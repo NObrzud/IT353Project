@@ -40,7 +40,7 @@ public class AccountDAO {
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
             // if doing the above in Oracle: DBHelper.loadDriver("oracle.jdbc.driver.OracleDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             // if doing the above in Oracle:  String myDB = "jdbc:oracle:thin:@oracle.itk.ilstu.edu:1521:ora478";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
 
@@ -85,7 +85,7 @@ public class AccountDAO {
         String password = account.getPassword();
         int a = 0;
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "select * from Account";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -131,7 +131,7 @@ public class AccountDAO {
         }
 
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             Statement st = connection.createStatement();
             String sql = "INSERT INTO Account VALUES ('"
@@ -156,7 +156,7 @@ public class AccountDAO {
         }
 
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             Statement st = connection.createStatement();
             String sql = "UPDATE ACCOUNT SET password = '"
@@ -174,7 +174,7 @@ public class AccountDAO {
 
     public int uploadImage(FileUploadEvent event, Account account, double price) {
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "insert into Photos (FILENAME, EMAIL, RATING, TOTAL, IMAGECONTENT, SUBMISSIONDATE, PRICE, WINNER)";
             String values = "values (?,?,?,?,?,?,?,?)";
@@ -199,7 +199,7 @@ public class AccountDAO {
     public void updateWinner(String filename){
         try
         {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE PHOTOS SET "
                     + "WINNER = " + 1 + " "
@@ -220,7 +220,7 @@ public class AccountDAO {
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
             Statement stmt = DBConn.createStatement();
 
@@ -262,7 +262,7 @@ public class AccountDAO {
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
             PreparedStatement stmt;// = DBConn.createStatement();
 
@@ -291,7 +291,7 @@ public class AccountDAO {
     {
         try
         {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE ACCOUNT SET "
                     + "FIRSTNAME = '"+ account.getFirstName() + "', "
@@ -311,7 +311,7 @@ public class AccountDAO {
     public void updateRating(String fn, int rating)
     {
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "UPDATE PHOTOS SET RATING = RATING+" + rating
                     + ", TOTAL = TOTAL+" + 5 + " WHERE FILENAME = '" + fn+"'";
@@ -326,7 +326,7 @@ public class AccountDAO {
     public void addToCart(String filename, String email, double price)
     {
         try{
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "INSERT INTO CART (EMAIL, NAME, PRICE) VALUES (?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -346,7 +346,7 @@ public class AccountDAO {
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
             Statement stmt = DBConn.createStatement();
             String query = "SELECT * FROM CART";
@@ -376,7 +376,7 @@ public class AccountDAO {
     public void emptyCart()
     {
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "DELETE FROM CART";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -390,7 +390,7 @@ public class AccountDAO {
         public void addToAdminCart(Account acc, String filename, String email, double price)
     {
         try{
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "INSERT INTO ADMINCART (BUYER,EMAIL, NAME, PRICE) VALUES (?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -411,7 +411,7 @@ public class AccountDAO {
         Connection DBConn = null;
         try {
             DBHelper.loadDriver("org.apache.derby.jdbc.ClientDriver");
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             DBConn = DBHelper.connect2DB(myDB, "itkstu", "student");
             Statement stmt = DBConn.createStatement();
             String query = "SELECT * FROM ADMINCART";
@@ -442,7 +442,7 @@ public class AccountDAO {
          public void emptyAdminCart()
     {
         try {
-            String myDB = "jdbc:derby://localhost:1527/Project353";
+            String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
             String sql = "DELETE FROM ADMINCART";
             PreparedStatement ps = connection.prepareStatement(sql);

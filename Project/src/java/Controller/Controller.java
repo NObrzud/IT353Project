@@ -81,7 +81,7 @@ public class Controller {
         String query = "SELECT * FROM PHOTOS WHERE WINNER = 1";
         winnerArr = dao.getImages(query);
     }
-    
+     
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
@@ -247,6 +247,7 @@ public class Controller {
     public void upload(FileUploadEvent event) {
         AccountDAO ad = new AccountDAO();
         int x = ad.uploadImage(event, account, 4.99);
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     /**
