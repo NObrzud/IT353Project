@@ -23,10 +23,10 @@
                 <p:layoutUnit position="center">
                     <p:growl id="message" showDetail="true"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="cart.xhtml" value="Cart"  style="width:100px; height:30px; float:right; padding:5px 10px;"/>
-                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="500" panelHeight="300" autoPlay="false" showCaption="true">
+                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="650" panelHeight="450" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"> 
                         </p:rating> <br></br>
-                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}" style="width:500px;height:300">
+                        <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}" style="width:650px;height:450">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>
                         <input type="hidden" name="myimage" value="#{image.photoid}"/>

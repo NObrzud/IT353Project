@@ -13,17 +13,12 @@ import Model.AdminCart;
 import Model.Cart;
 import Model.CreditCard;
 import Model.Image;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Properties;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -47,6 +42,10 @@ public class Controller {
     private int userRating;
     private String dropDownString;
     private WeekController wc;
+    
+    private String fn = "";
+    private String em = "";
+    private double price = 0.0;
 
     public Controller() {
         wc = new WeekController();
@@ -74,7 +73,6 @@ public class Controller {
         AccountDAO dao = new AccountDAO();
         dao.updateWinner(dropDownString);
         sendEmail(account.getEmail(),"it353project@gmail.com","You Won!", "Congratulations! \nYour image was selected as a winner for this week!");
-        
     }
     public void getWinnerImagesFromDB(){
         AccountDAO dao = new AccountDAO();
@@ -207,6 +205,8 @@ public class Controller {
         }
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thank you!", "Thank you for purchasing these images.");
         FacesContext.getCurrentInstance().addMessage(null, message);
+        AccountDAO dao = new AccountDAO();
+        dao.addToAdminCart(account, fn, em, price);
         return "dashboard.xhtml";
     }
     
@@ -247,7 +247,6 @@ public class Controller {
     public void upload(FileUploadEvent event) {
         AccountDAO ad = new AccountDAO();
         int x = ad.uploadImage(event, account, 4.99);
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     /**
@@ -379,9 +378,9 @@ public class Controller {
     
     public void addToCart()
     {
-        String fn = "";
-        String em = "";
-        double price = 0;
+        fn = "";
+        em = "";
+        price = 0;
         for(int i = 0; i < imageArr.size(); i++){
             if(imageArr.get(i).getFilename().equals(dropDownString)){
                 Image tempImage = imageArr.get(i);
@@ -392,7 +391,6 @@ public class Controller {
         }
         AccountDAO ad = new AccountDAO();
         ad.addToCart(fn, em, price);
-        /* TODO*/ ad.addToAdminCart(account, fn, em, price);
     }
     
     public ArrayList<Cart> getCart()
