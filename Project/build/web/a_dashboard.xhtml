@@ -17,11 +17,11 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="a_winners.xhtml" value="View Winners"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="changeweek.xhtml" value="Change Week"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
-                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> 
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <p:galleria value="#{controller.imageArr}" var="image" panelWidth="650" panelHeight="450" autoPlay="false" showCaption="true">
+                    <p:galleria value="#{photoController.imageArr}" var="image" panelWidth="650" panelHeight="450" autoPlay="false" showCaption="true">
                         Average Rating: <p:rating readonly="true"  stars="5" value="#{image.rating}"> 
                     </p:rating><br></br>
                         <p:graphicImage value="#{controller.image.streamContent}" title="#{image.filename}" alt="#{image.email}" style="width:650px; height:450px">
@@ -32,7 +32,7 @@
                         <p:panelGrid columns ="4">
                             Select image:
                             <p:selectOneMenu  id="imagenames" value="#{controller.dropDownString}">
-                                <f:selectItems value="#{controller.imageNamesArr}" var="names" itemValue="#{names}"></f:selectItems>
+                                <f:selectItems value="#{photoController.imageNamesArr}" var="names" itemValue="#{names}"></f:selectItems>
                                 <f:ajax listener="#{controller.setDropDownString(names)}"/>
                             </p:selectOneMenu> 
                             <h:commandButton class="btn btn-lg btn-primary btn-block" value="Select Winner" style="width:130px;height:40px" action="#{controller.makeWinner}" />

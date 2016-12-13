@@ -26,7 +26,7 @@ import org.primefaces.model.UploadedFile;
  *
  * @author it353F620
  */
-@ManagedBean(eager=false)
+@ManagedBean(eager = false)
 @SessionScoped
 public class Controller {
 
@@ -35,61 +35,74 @@ public class Controller {
     private CreditCard creditCard;
     private UploadedFile file;
     private ArrayList<Image> imageArr;
-    private ArrayList<String> imageNamesArr;
-    private ArrayList<Image> winnerArr;
+    /*private ArrayList<String> imageNamesArr;
+    private ArrayList<Image> winnerArr;*/
     private ArrayList<Cart> cart;
     private ArrayList<AdminCart> admincart;
     private int userRating;
     private String dropDownString;
     private WeekController wc;
-    
-    private String fn = "";
-    private String em = "";
-    private double price = 0.0;
+
+    private String fn;
+    private String em;
+    private double price;
 
     public Controller() {
-        wc = new WeekController();
+        //wc = new WeekController();
         account = new Account();
         image = new Image();
         creditCard = new CreditCard();
         userRating = 0;
         dropDownString = "";
-        getImagesFromDB();
+        imageArr = new PhotoController().getImageArr();
+        /*getImagesFromDB();
         getWinnerImagesFromDB();
         imageNamesArr = new ArrayList<String>();
         for(int i=0; i<imageArr.size(); i++){
             imageNamesArr.add(imageArr.get(i).getFilename());
-        }
+        }*/
     }
-    
-    public void getImagesFromDB(){
+
+    /*public void getImagesFromDB(){
         AccountDAO dao = new AccountDAO();
         java.sql.Date d1 = new java.sql.Date(wc.getStartDate().getTime());
         java.sql.Date d2 = new java.sql.Date(wc.getEndDate().getTime());
         String query = "SELECT * FROM PHOTOS WHERE SUBMISSIONDATE BETWEEN '"+d1+"' AND '"+d2+"'";
         imageArr = dao.getImages(query);
-    }
-    public void makeWinner(){
+    }*/
+    public void makeWinner() {
         AccountDAO dao = new AccountDAO();
         dao.updateWinner(dropDownString);
-        sendEmail(account.getEmail(),"it353project@gmail.com","You Won!", "Congratulations! \nYour image was selected as a winner for this week!");
+        AccountDAO ad = new AccountDAO();
+        
+        for (int i = 0; i < imageArr.size(); i++) {
+            if (imageArr.get(i).getFilename().equals(dropDownString)) {
+                Image tempImage = imageArr.get(i);
+                fn = dropDownString;
+                price = tempImage.getPrice();
+                em = tempImage.getEmail();
+            }
+        }
+        ad.addToAdminCart("N/a", fn, em, 10.00, "Winner");
+        sendEmail(em, "You Won!", "Congratulations! \nYour image, "+fn+", was selected as a winner for this week! For being this week's winner, you will be awarded $10!");
     }
-    public void getWinnerImagesFromDB(){
+
+    /*public void getWinnerImagesFromDB(){
         AccountDAO dao = new AccountDAO();
         String query = "SELECT * FROM PHOTOS WHERE WINNER = 1";
         winnerArr = dao.getImages(query);
-    }
-     
+    }*/
+
     //This method calls the method to sign you in
     public String signIn() {
         AccountDAO ad = new AccountDAO();
         ad.emptyCart();
-        if(account.getEmail().equals("")){
+        if (account.getEmail().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Login", "Invalid Username/Password. Please try again.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index.xhtml";
         }
-        if(account.getPassword().equals("")){
+        if (account.getPassword().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Login", "Invalid Username/Password. Please try again.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index.xhtml";
@@ -124,12 +137,12 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        if (account.getEmail().charAt(0)=='.' ||
-                account.getEmail().charAt(account.getEmail().length()-1)=='.' ||
-                account.getEmail().charAt(0)=='@' ||
-                account.getEmail().charAt(account.getEmail().length()-1)=='@' ||
-                !account.getEmail().contains("@") ||
-                !account.getEmail().contains(".")) {
+        if (account.getEmail().charAt(0) == '.'
+                || account.getEmail().charAt(account.getEmail().length() - 1) == '.'
+                || account.getEmail().charAt(0) == '@'
+                || account.getEmail().charAt(account.getEmail().length() - 1) == '@'
+                || !account.getEmail().contains("@")
+                || !account.getEmail().contains(".")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter a valid email.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
@@ -150,23 +163,23 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        if(creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16 
-                || !validCreditCard(creditCard.getAccountNumber())){
+        if (creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16
+                || !validCreditCard(creditCard.getAccountNumber())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Number.", "Please enter a valid Credit Card Number.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        if(creditCard.getCardName().equals("")){
+        if (creditCard.getCardName().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Information.", "Please enter a name for your Credit Card name.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        if(creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())){
+        if (creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
         }
-        if(creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())){
+        if (creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "register.xhtml";
@@ -179,26 +192,25 @@ public class Controller {
             return "register.xhtml";
         }
     }
-    
-    public String authenticateCreditCardInformation()
-    {
-        if(creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16 
-                || !validCreditCard(creditCard.getAccountNumber())){
+
+    public String authenticateCreditCardInformation() {
+        if (creditCard.getAccountNumber().equals("") || creditCard.getAccountNumber().length() != 16
+                || !validCreditCard(creditCard.getAccountNumber())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Number.", "Please enter a valid Credit Card Number.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "pay.xhtml";
         }
-        if(creditCard.getCardName().equals("")){
+        if (creditCard.getCardName().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Information.", "Please enter a name for your Credit Card name.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "pay.xhtml";
         }
-        if(creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())){
+        if (creditCard.getExpirationDate().equals("") || !validateExpirationDate(creditCard.getExpirationDate())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "pay.xhtml";
         }
-        if(creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())){
+        if (creditCard.getSecurityCode().equals("") || !validateSecurityCode(creditCard.getSecurityCode())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Credit Card Date", "Please enter a valid Credit Card expiration date.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "pay.xhtml";
@@ -206,41 +218,49 @@ public class Controller {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Thank you!", "Thank you for purchasing these images.");
         FacesContext.getCurrentInstance().addMessage(null, message);
         AccountDAO dao = new AccountDAO();
-        dao.addToAdminCart(account, fn, em, price);
+        dao.addToAdminCart(account.getEmail(), fn, em, price, "Bought");
+        sendEmail(account.getEmail(), "Purchase Confirmation", "Thank you for purchasing the image, " + fn + ".");
         return "dashboard.xhtml";
     }
-    
-    private boolean validateSecurityCode(String code)
-    {
-        if(code.length() != 3) return false;
-        if( !isDigit(code.charAt(0)) || !isDigit(code.charAt(1)) || !isDigit(code.charAt(2))) return false;
-        return true;
-    }
-    
-    private boolean validateExpirationDate(String date)
-    {
-        if(date.length() != 5) return false;
-        if(date.charAt(2) != '/') return false;
-        if( !isDigit(date.charAt(0)) || !isDigit(date.charAt(1))
-             || !isDigit(date.charAt(3)) || !isDigit(date.charAt(4)))
-                        return false;
-        return true;
-    }
-    
-    private boolean validCreditCard(String name)
-    {
-        for(int i = 0; i < name.length(); i++)
-        {
-            if(!isDigit(name.charAt(i))) return false;
+
+    private boolean validateSecurityCode(String code) {
+        if (code.length() != 3) {
+            return false;
+        }
+        if (!isDigit(code.charAt(0)) || !isDigit(code.charAt(1)) || !isDigit(code.charAt(2))) {
+            return false;
         }
         return true;
     }
-    
-    private boolean isDigit(char x)
-    {
-        if(x == '1' || x == '2' || x == '3' || x == '4' || x == '5' || x == '6' || x == '7' 
-                || x == '8' || x == '9' || x == '0')
+
+    private boolean validateExpirationDate(String date) {
+        if (date.length() != 5) {
+            return false;
+        }
+        if (date.charAt(2) != '/') {
+            return false;
+        }
+        if (!isDigit(date.charAt(0)) || !isDigit(date.charAt(1))
+                || !isDigit(date.charAt(3)) || !isDigit(date.charAt(4))) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validCreditCard(String name) {
+        for (int i = 0; i < name.length(); i++) {
+            if (!isDigit(name.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isDigit(char x) {
+        if (x == '1' || x == '2' || x == '3' || x == '4' || x == '5' || x == '6' || x == '7'
+                || x == '8' || x == '9' || x == '0') {
             return true;
+        }
         return false;
     }
 
@@ -286,47 +306,43 @@ public class Controller {
     }
 
     public String changePassword() {
-        if(account.getPassword().equals("")){
+        if (account.getPassword().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please enter your new password.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "changepassword.xhtml";
         }
-        if(account.getConfirmPass().equals("")){
+        if (account.getConfirmPass().equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Please confirm your password");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "changepassword.xhtml";
         }
-        if(!account.getPassword().equals(account.getConfirmPass())){
+        if (!account.getPassword().equals(account.getConfirmPass())) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Invalid Inputs!", "Passwords don't match.");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "changepassword.xhtml";
-        }
-        else{
+        } else {
             AccountDAO accDao = new AccountDAO();
             accDao.changePassword(account);
         }
         return "index.xhtml";
-        
+
     }
 
     /*
     * sends email
      */
-    public void sendEmail(String recipient, String sender, String subject, String content) {
+    public void sendEmail(String recipient, String subject, String content) {
         String to = recipient;
-        String from = sender;
+        String from = "it353project@gmail.com";
         String host = "smtp.gmail.com";
         String username = "it353project@gmail.com";
         String password = "nickandcharlie";
 
         // Get system properties
-        Properties properties = System.getProperties();
+        Properties properties = new Properties();
 
-        // Setup mail server
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.user", username);
-        properties.put("mail.smtp.password", password);
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "587");
 
@@ -346,8 +362,8 @@ public class Controller {
             message.setFrom(new InternetAddress(from));
 
             // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(to));
+            message.setRecipients(Message.RecipientType.TO,
+         InternetAddress.parse(to));
 
             // Set Subject: header field
             message.setSubject(subject);
@@ -358,31 +374,29 @@ public class Controller {
             Transport.send(message);
             System.out.println("Sent message successfully....");
         } catch (MessagingException mex) {
-            mex.printStackTrace();
+            throw new RuntimeException(mex);
         }
     }
-    
-    public void onrate(){
+
+    public void onrate() {
         AccountDAO ad = new AccountDAO();
-        ad.updateRating(dropDownString ,userRating);
+        ad.updateRating(dropDownString, userRating);
     }
-    
-    public String payroyalties(){
-        /* TODO SEND EMAIL */
+
+    public String payroyalties() {
         AccountDAO ad = new AccountDAO();
         ad.emptyAdminCart();
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirmation:", "Royalties have been paid and an email confirmation will be sent.");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Confirmation:", "Royalties have been paid.");
         FacesContext.getCurrentInstance().addMessage(null, message);
         return "payroyalties.xhtml";
     }
-    
-    public void addToCart()
-    {
+
+    public void addToCart() {
         fn = "";
         em = "";
         price = 0;
-        for(int i = 0; i < imageArr.size(); i++){
-            if(imageArr.get(i).getFilename().equals(dropDownString)){
+        for (int i = 0; i < imageArr.size(); i++) {
+            if (imageArr.get(i).getFilename().equals(dropDownString)) {
                 Image tempImage = imageArr.get(i);
                 fn = dropDownString;
                 price = tempImage.getPrice();
@@ -392,34 +406,29 @@ public class Controller {
         AccountDAO ad = new AccountDAO();
         ad.addToCart(fn, em, price);
     }
-    
-    public ArrayList<Cart> getCart()
-    {
+
+    public ArrayList<Cart> getCart() {
         AccountDAO ad = new AccountDAO();
         cart = ad.getCart();
         return cart;
     }
-    
-    public double getTotalPrice()
-    {
+
+    public double getTotalPrice() {
         double price = 0.0;
-        for(int i = 0; i < cart.size(); i++)
-        {
+        for (int i = 0; i < cart.size(); i++) {
             price += cart.get(i).getPrice();
         }
         return price;
     }
-    
-    public String logout()
-    {
+
+    public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         AccountDAO ad = new AccountDAO();
         ad.emptyCart();
         return "index.xhtml";
     }
-    
-    public String updateAccount()
-    {
+
+    public String updateAccount() {
         boolean update = true;
         //Making sure all values have been inputed
         if (account.getFirstName().equals("")) {
@@ -448,12 +457,14 @@ public class Controller {
             FacesContext.getCurrentInstance().addMessage(null, message);
             update = false;
         }
-       AccountDAO ad = new AccountDAO();
-       if(update) ad.updateProfile(account);
-       
-       return "dashboard.xhtml";
+        AccountDAO ad = new AccountDAO();
+        if (update) {
+            ad.updateProfile(account);
+        }
+
+        return "dashboard.xhtml";
     }
-    
+
     /**
      * @return the account
      */
@@ -482,14 +493,13 @@ public class Controller {
         this.file = file;
     }
 
-    public ArrayList<Image> getImageArr() {
+    /*public ArrayList<Image> getImageArr() {
         return imageArr;
     }
 
     public void setImageArr(ArrayList<Image> imageArr) {
         this.imageArr = imageArr;
-    }
-
+    }*/
     public Image getImage() {
         return image;
     }
@@ -506,7 +516,7 @@ public class Controller {
         this.userRating = userRating;
     }
 
-    public ArrayList<Image> getWinnerArr() {
+    /*public ArrayList<Image> getWinnerArr() {
         return winnerArr;
     }
 
@@ -520,15 +530,14 @@ public class Controller {
 
     public void setImageNamesArr(ArrayList<String> imageNamesArr) {
         this.imageNamesArr = imageNamesArr;
-    }
-
+    }*/
     public String getDropDownString() {
         return dropDownString;
     }
 
     public void setDropDownString(String dropDownString) {
         this.dropDownString = dropDownString;
-    }    
+    }
 
     /**
      * @return the creditCard
@@ -543,6 +552,7 @@ public class Controller {
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
     }
+
     public ArrayList<AdminCart> getAdmincart() {
         AccountDAO dao = new AccountDAO();
         admincart = dao.getAdminCart();
@@ -560,5 +570,5 @@ public class Controller {
     public void setWc(WeekController wc) {
         this.wc = wc;
     }
-    
+
 }

@@ -17,11 +17,11 @@
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="updateaccount.xhtml" value="Update Account"/>
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="upload.xhtml" value="Upload"/>
                     <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
-                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> <br></br><br></br>
+                    <br></br><br></br><br></br><br></br><br></br><br></br><br></br> 
                     <h:commandButton class="btn btn-lg btn-primary btn-block" action="#{controller.logout()}" value="Logout"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="center">
-                    <p:galleria value="#{controller.winnerArr}" var="image" panelWidth="650" panelHeight="450" autoPlay="false" showCaption="true">
+                    <p:galleria value="#{photoController.winnerArr}" var="image" panelWidth="650" panelHeight="450" autoPlay="false" showCaption="true">
                         <p:graphicImage value="#{controller.image.streamContent}" title="#{image.email}" alt="Winner for Week of #{image.submitted}" style="width:650px;height:450">
                             <f:param name="pid" value="#{image.photoid}"/>
                         </p:graphicImage>

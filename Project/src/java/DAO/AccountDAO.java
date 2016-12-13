@@ -387,17 +387,18 @@ public class AccountDAO {
         }
     }
     
-        public void addToAdminCart(Account acc, String filename, String email, double price)
+        public void addToAdminCart(String accEmail, String filename, String email, double price, String type)
     {
         try{
             String myDB = "jdbc:derby://gfish2.it.ilstu.edu:1527/NickCharlieMattProject";
             Connection connection = DriverManager.getConnection(myDB, "itkstu", "student");
-            String sql = "INSERT INTO ADMINCART (BUYER,EMAIL, NAME, PRICE) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO ADMINCART (BUYER, EMAIL, NAME, PRICE, TYPE) VALUES (?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, acc.getEmail());
+            ps.setString(1, accEmail);
             ps.setString(2, email);
             ps.setString(3, filename);
             ps.setDouble(4, price);
+            ps.setString(5, type);
             ps.execute();
             ps.close();
         } catch (SQLException e) {
@@ -416,14 +417,15 @@ public class AccountDAO {
             Statement stmt = DBConn.createStatement();
             String query = "SELECT * FROM ADMINCART";
             ResultSet rs = stmt.executeQuery(query);
-            String name, email, buyer;
+            String name, email, buyer, type;
             double price;
             while (rs.next()) {
                 name = rs.getString("NAME");
                 email = rs.getString("EMAIL");
                 price = rs.getDouble("PRICE");
                 buyer = rs.getString("BUYER");
-                ac.add(new AdminCart(buyer, email, name, price));
+                type = rs.getString("TYPE");
+                ac.add(new AdminCart(buyer, email, name, price, type));
             }
             rs.close();
             stmt.close();

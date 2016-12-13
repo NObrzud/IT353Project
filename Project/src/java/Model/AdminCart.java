@@ -15,18 +15,20 @@ public class AdminCart
     private String email;
     private String name;
     private double price;
+    private String type;
     
     public AdminCart()
     {
        
     }
     
-    public AdminCart(String buyer, String email, String name, double price)
+    public AdminCart(String buyer, String email, String name, double price, String type)
     {
         this.buyer = buyer;
         this.email = email;
         this.name = name;
         this.price = price;
+        this.type = type;
     }
 
     public String getBuyer() {
@@ -78,5 +80,12 @@ public class AdminCart
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
